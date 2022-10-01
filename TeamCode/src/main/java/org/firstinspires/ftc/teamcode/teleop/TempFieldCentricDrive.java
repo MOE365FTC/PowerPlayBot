@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
 public class TempFieldCentricDrive extends LinearOpMode {
+    double angle;
+    double autoTurnPower;
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare our motors
@@ -30,8 +32,8 @@ public class TempFieldCentricDrive extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-            double x = gamepad1.left_stick_x; // Counteract imperfect strafing
+            double y = -gamepad1.left_stick_y;
+            double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
 
             double botHeading = -imu.getAngularOrientation().firstAngle;
@@ -39,9 +41,6 @@ public class TempFieldCentricDrive extends LinearOpMode {
             double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
 
-            // Denominator is the largest motor power (absolute value) or 1
-            // This ensures all the powers maintain the same ratio, but only when
-            // at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (rotY + rotX + rx) / denominator;
             double backLeftPower = (rotY - rotX + rx) / denominator;
@@ -52,6 +51,23 @@ public class TempFieldCentricDrive extends LinearOpMode {
             motorBackLeft.setPower(backLeftPower * 0.6);
             motorFrontRight.setPower(frontRightPower * 0.6);
             motorBackRight.setPower(backRightPower * 0.6);
+            angle = Math.toDegrees(imu.getAngularOrientation().firstAngle) + 180.0;
+            telemetry.addData("angle", angle);
+            telemetry.update();
+            if(gamepad1.a){
+                autoTurnPower = Math.max(Math.min(angle%90, 90-angle%90)/80, 0.2);
+                if(angle % 90 >= 45){
+                    motorFrontLeft.setPower(-autoTurnPower);
+                    motorFrontLeft.setPower(-autoTurnPower);
+                    motorBackRight.setPower(autoTurnPower);
+                    motorFrontRight.setPower(autoTurnPower);
+                } else if(angle % 90 < 45){
+                    motorFrontLeft.setPower(autoTurnPower);
+                    motorFrontLeft.setPower(autoTurnPower);
+                    motorBackRight.setPower(-autoTurnPower);
+                    motorFrontRight.setPower(-autoTurnPower);
+                }
+            }
         }
     }
 }

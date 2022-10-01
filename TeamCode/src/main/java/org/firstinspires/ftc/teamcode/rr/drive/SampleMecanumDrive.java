@@ -1,5 +1,17 @@
 package org.firstinspires.ftc.teamcode.rr.drive;
 
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MAX_ANG_ACCEL;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.encoderTicksToInches;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.kA;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.kStatic;
+import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.kV;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -35,18 +47,6 @@ import org.firstinspires.ftc.teamcode.rr.util.LynxModuleUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MAX_ANG_ACCEL;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MAX_ANG_VEL;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.encoderTicksToInches;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.rr.drive.DriveConstants.kV;
 
 /*
  * Simple mecanum drive hardware implementation for REV hardware.
@@ -119,12 +119,11 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         leftFront = hardwareMap.get(DcMotorEx.class, "FLM");
         leftRear = hardwareMap.get(DcMotorEx.class, "BLM");
-        rightRear = hardwareMap.get(DcMotorEx.class, "FRM");
-        rightFront = hardwareMap.get(DcMotorEx.class, "BRM");
+        rightFront = hardwareMap.get(DcMotorEx.class, "FRM");
+        rightRear = hardwareMap.get(DcMotorEx.class, "BRM");
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
-
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         for (DcMotorEx motor : motors) {
@@ -147,7 +146,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
-
+        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
     }
 
