@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.hardware.MOEBot;
 import org.openftc.apriltag.AprilTagDetection;
 
 import java.util.ArrayList;
@@ -15,19 +16,19 @@ public class TestVisionAprilTag extends LinearOpMode {
     @Override
     public void runOpMode()
     {
-        Vision vision = new Vision(hardwareMap); //call this in MOEbot auton constructor
+        MOEBot robot = new MOEBot(hardwareMap, gamepad1);
 
         //do roadrunner trajectory setup here
 
         while (!isStarted() && !isStopRequested()){ //init loop
-            vision.visionLoop();
-            telemetry.addData("Detection: ", vision.getSignalPos());
-            telemetry.addData("Detections", vision.detections);
+            robot.vision.visionLoop();
+            telemetry.addData("Detection: ", robot.vision.getSignalPos());
+            telemetry.addData("Detections", robot.vision.detections);
             telemetry.update();
             sleep(20);
         }
 
-        switch(vision.getSignalPos()) {
+        switch(robot.vision.getSignalPos()) {
             case 1:
                 telemetry.addData("Outcome: ", "found tag 1, ran 1st path");
                 break;
