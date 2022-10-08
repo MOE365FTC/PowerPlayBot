@@ -16,8 +16,17 @@ apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
 
 android {
+
+    packagingOptions {
+        jniLibs {
+            pickFirsts += ['**/*.so']
+        }
+    }
     namespace = 'org.firstinspires.ftc.teamcode'
     buildToolsVersion '31.0.0'
+    androidResources {
+        noCompress 'tflite'
+    }
 }
 
 dependencies {

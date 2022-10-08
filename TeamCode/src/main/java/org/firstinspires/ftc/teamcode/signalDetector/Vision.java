@@ -72,8 +72,10 @@ public class Vision {
                     break;
                 }
             }
-        }
+        } else signalPosition = -1;
     }
 
-    public int getSignalPos() { return signalPosition; }
+    public int getSignalPos(){
+
+        return signalPosition; }
 }
