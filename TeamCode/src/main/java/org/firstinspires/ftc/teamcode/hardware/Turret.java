@@ -10,6 +10,10 @@ public class Turret {
     Gamepad gamepad1;
 
     int ticksPerDegree = 100; //temp value
+    int manualIncrement = 10; //amount of degrees manual control moves per press of trigger
+    int maxManualTurn = 190*ticksPerDegree;
+
+    double turretPower = 0.6;
 
     public Turret(HardwareMap hardwareMap, IMU imu, Gamepad gamepad1) {
         this.gamepad1 = gamepad1;
@@ -29,10 +33,10 @@ public class Turret {
             turnToDegree(135);
         } else if (gamepad1.dpad_down && gamepad1.dpad_left) {
             //225 deg
-            turnToDegree(225);
+            turnToDegree(-135);
         } else if (gamepad1.dpad_left && gamepad1.dpad_up) {
             //315 deg
-            turnToDegree(315);
+            turnToDegree(-45);
         } else if (gamepad1.dpad_up) {
             //0 deg
             turnToDegree(0);
@@ -40,24 +44,23 @@ public class Turret {
             //90 deg
             turnToDegree(90);
         } else if (gamepad1.dpad_down) {
-            //180 deg
-            turnToDegree(180);
+            //180 deg(
+            turnToDegree(turretMotor.getCurrentPosition() > 0 ? 180 : -180);
         } else if (gamepad1.dpad_left) {
             //270 deg
-            turnToDegree(270);
+            turnToDegree(-90);
         }
-        //        if(gamepad1.dpad_left){
-//            turretMotor.setPower(-0.6);
-//        } else if (gamepad1.dpad_right){
-//            turretMotor.setPower(0.6);
-//        } else {
-//            turretMotor.setPower(0.0);
-//        }
+        //MANUAL CONTROL, triggers move either +10 or -10 degrees
+        if(gamepad1.left_trigger > 0.1 && turretMotor.getCurrentPosition() - (manualIncrement * ticksPerDegree) >= -maxManualTurn) { //deadzone
+            turnToDegree(turretMotor.getCurrentPosition() - (manualIncrement*ticksPerDegree));
+        } else if(gamepad1.right_trigger > 0.1 && turretMotor.getCurrentPosition() + (manualIncrement * ticksPerDegree) <= maxManualTurn) {
+            turnToDegree(turretMotor.getCurrentPosition() + (manualIncrement*ticksPerDegree));
+        }
     }
 
     public void turnToDegree(int turnDegree) {
         double correctedDegrees = ((turnDegree + imu.getHeadingFirstAngle()) % 360) * ticksPerDegree; //field-centric angle
-        //finish this
-
+        turretMotor.setTargetPosition((int) correctedDegrees);
+        turretMotor.setPower(turretPower);
     }
 }
