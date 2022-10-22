@@ -5,9 +5,10 @@ import static java.lang.Thread.sleep;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.hardware.IMU;
+import org.firstinspires.ftc.teamcode.hardware.MOEBot;
 
 public class RightAuton extends OpMode {
-    MOEBot robot = MOEBot(hardwareMap, gamepad1, IMU);
+    MOEBot robot = new MOEBot(hardwareMap, gamepad1);
 
     @Override
     public void init() {
@@ -20,7 +21,7 @@ public class RightAuton extends OpMode {
         telemetry.addData("Detection: ", robot.vision.getSignalPos());
 //            telemetry.addData("Detections", vision.detections);
         telemetry.update();
-        robot.position = robot.vision.getSignalPos();
+//        robot.position = robot.vision.getSignalPos();
     }
 
     @Override

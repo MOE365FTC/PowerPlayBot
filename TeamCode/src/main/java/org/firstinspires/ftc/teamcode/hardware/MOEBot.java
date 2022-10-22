@@ -16,7 +16,7 @@ public class MOEBot {
     public MOEBot(HardwareMap hardwareMap, Gamepad gamepad1) {
         imu = new IMU(hardwareMap);
         chassis = new Chassis(hardwareMap, imu, gamepad1);
-        claw = new Claw();
+//        claw = new Claw(hardwareMap, gamepad1);
         turret = new Turret(hardwareMap, imu, gamepad1);
         vision = new Vision(hardwareMap);
     }
