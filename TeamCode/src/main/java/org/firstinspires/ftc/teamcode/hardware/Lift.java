@@ -10,7 +10,7 @@ public class Lift {
 
     DcMotor liftMotor;
 
-    int high = 600, mid = 400, low = 200, floor = 100;
+    int high = 600, mid = 400, low = 200, floor = 100, highGrab = 50, lowGrab = 30;
     double liftPower;
     public Lift(HardwareMap hardwareMap, Gamepad gamepad1){
         this.hardwareMap = hardwareMap;
@@ -33,8 +33,44 @@ public class Lift {
             liftMotor.setTargetPosition(low);
             liftMotor.setPower(liftPower);
         } else if (gamepad1.a){
+            liftMotor.setTargetPosition(lowGrab);
+            liftMotor.setPower(liftPower);
+        } else if (gamepad1.right_stick_button){
             liftMotor.setTargetPosition(floor);
             liftMotor.setPower(liftPower);
         }
+    }
+
+    public void autonActuate(autonLiftPos pos) {
+        switch (pos) {
+            case HIGH:
+                liftMotor.setTargetPosition(high);
+                liftMotor.setPower(liftPower);
+                break;
+            case MID:
+                liftMotor.setTargetPosition(mid);
+                liftMotor.setPower(liftPower);
+                break;
+            case LOW:
+                liftMotor.setTargetPosition(low);
+                liftMotor.setPower(liftPower);
+                break;
+            case HIGH_GRAB:
+                liftMotor.setTargetPosition(highGrab);
+                liftMotor.setPower(liftPower);
+                break;
+            case LOW_GRAB:
+                liftMotor.setTargetPosition(lowGrab);
+                liftMotor.setPower(liftPower);
+                break;
+        }
+    }
+
+    public enum autonLiftPos {
+        HIGH,
+        MID,
+        LOW,
+        HIGH_GRAB,
+        LOW_GRAB,
     }
 }
