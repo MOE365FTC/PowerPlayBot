@@ -64,7 +64,6 @@ public class Turret {
         double correctedDegrees = ((turnDegree - imu.getHeadingFirstAngle()) % 360) * ticksPerDegree; //field-centric angle
         turretMotor.setTargetPosition((int) correctedDegrees);
         turretMotor.setPower(turretPower);
-
     }
 
     public void turnToDegree(int turnDegree, Telemetry telemetry) {

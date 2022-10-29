@@ -19,6 +19,13 @@ public class Claw {
         clawServo = hardwareMap.get(Servo.class, "CGM");
     }
 
+    public void actuate(){
+        if(gamepad1.left_bumper){
+            clawServo.setPosition(closed);
+        } else if (gamepad1.right_bumper){
+            clawServo.setPosition(open);
+        }
+    }
     public void grab(){
         clawServo.setPosition(closed);
     }
@@ -26,5 +33,4 @@ public class Claw {
     public void release(){
         clawServo.setPosition(open);
     }
-
 }

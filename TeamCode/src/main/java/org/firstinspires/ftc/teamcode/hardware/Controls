@@ -1,0 +1,28 @@
+Controls:
+
+Gamepad1:
+
+Lift Pos:
+a: grab
+b: low
+x: mid
+y: high
+right stick button: floor
+
+Turret:
+(field centric angles)
+dpad up: 0 deg
+dpad right: 90 deg
+dpad left: -90 deg
+dpad down: 180 deg
+
+diagonal (pressing two dpads at once): 45 degree intervals
+
+Claw:
+Left Bumper: Close
+Right Bumper: Open
+
+Chassis:
+Left Stick: Translation
+Right Stick: Rotation
+Right Trigger: Speed boost (NOT YET IMPLEMENTED)
