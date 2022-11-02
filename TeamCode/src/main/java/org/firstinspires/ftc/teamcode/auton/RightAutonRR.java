@@ -142,13 +142,13 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 
         waitForStart();
         robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-        drive.followTrajectorySequence(traj);
+        drive.followTrajectorySequenceAsync(traj);
         switch(signalPos){
             case 1:
-                drive.followTrajectorySequence(case1);
+                drive.followTrajectorySequenceAsync(case1);
                 break;
             case 3:
-                drive.followTrajectorySequence(case3);
+                drive.followTrajectorySequenceAsync(case3);
                 break;
             default:
                 break;
