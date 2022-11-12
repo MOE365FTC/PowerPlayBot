@@ -4,13 +4,9 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.hardware.Lift;
 import org.firstinspires.ftc.teamcode.hardware.MOEBot;
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Autonomous
 public class RightAutonRR extends LinearOpMode { //test for auton using rr and markers instead of state-machine
@@ -18,10 +14,13 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
     int strafeDistance = 20;
     int signalPos = -1; //default
 
+    SampleMecanumDrive drive;
+    MOEBot robot;
+
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        MOEBot robot = new MOEBot(hardwareMap, gamepad1); //angle - robot degree + (angle/2)
+        drive = new SampleMecanumDrive(hardwareMap);
+        robot = new MOEBot(hardwareMap, gamepad1); //angle - robot degree + (angle/2)
 
         Pose2d startPose = new Pose2d(60, 36, Math.toRadians(180));
         drive.setPoseEstimate(startPose);
@@ -36,85 +35,95 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 //                            telemetry.update();
 //                })
                 .strafeRight(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.grab();
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
 //                    wait till cone is securely grabbed
 //                    robot.turret.turnToDegree(-45, telemetry);
 //                    telemetry.update();
-//                })
+                })
                 .strafeLeft(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.release();
-                    //retract lift
+//                    retract lift
 //                    robot.turret.turnToDegree(90, telemetry);
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH_GRAB);
 //                    telemetry.update();
-//                })
+                })
                 .strafeRight(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.grab();
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                    //wait till cone is securely grabbed
+//                    wait till cone is securely grabbed
 //                    robot.turret.turnToDegree(-45, telemetry);
 //                    telemetry.update();
-//                })
+                })
                 .strafeLeft(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.release();
-                    //retract lift
+//                    retract lift
 //                    robot.turret.turnToDegree(90, telemetry);
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH_GRAB);
 //                    telemetry.update();
-//                })
+                })
                 .strafeRight(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.grab();
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                    //wait till cone is securely grabbed
+//                    wait till cone is securely grabbed
 //                    robot.turret.turnToDegree(-45, telemetry);
 //                    telemetry.update();
-//                })
+                })
                 .strafeLeft(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.release();
-                    //retract lift
+//                    retract lift
 //                    robot.turret.turnToDegree(90, telemetry);
 //                    robot.lift.autonActuate(Lift.autonLiftPos.LOW_GRAB);
 //                    telemetry.update();
-//                })
+                })
                 .strafeRight(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.grab();
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                    //wait till cone is securely grabbed
+//                    wait till cone is securely grabbed
 //                    robot.turret.turnToDegree(-45, telemetry);
 //                    telemetry.update();
-//                })
+                })
                 .strafeLeft(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.release();
-                    //retract lift
+//                    retract lift
 //                    robot.turret.turnToDegree(90, telemetry);
 //                    robot.lift.autonActuate(Lift.autonLiftPos.LOW_GRAB);
 //                    telemetry.update();
-//                })
+                })
                 .strafeRight(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.grab();
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                    //wait till cone is securely grabbed
+//                    wait till cone is securely grabbed
 //                    robot.turret.turnToDegree(-45, telemetry);
 //                    telemetry.update();
-//                })
+                })
                 .strafeLeft(strafeDistance)
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    telemetryOdoPos();
 //                    robot.claw.release();
-                    //retract lift
+//                    retract lift
 //                    robot.turret.turnToDegree(90, telemetry);
 //                    robot.lift.autonActuate(Lift.autonLiftPos.LOW_GRAB);
 //                    telemetry.update();
-//                })
+                })
                 .build();
         TrajectorySequence case1 = drive.trajectorySequenceBuilder(traj.end())
                 .strafeLeft(strafeDistance)
@@ -153,5 +162,11 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
             default:
                 break;
         }
+    }
+
+    public void telemetryOdoPos() {
+        telemetry.addData("X", drive.getPoseEstimate().getX());
+        telemetry.addData("Y", drive.getPoseEstimate().getY());
+        telemetry.update();
     }
 }
