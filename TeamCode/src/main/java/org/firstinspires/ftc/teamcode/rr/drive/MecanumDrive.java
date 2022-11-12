@@ -9,15 +9,20 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @TeleOp
 public class MecanumDrive extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
+
     @Override
     public void init() {
-        leftFront = hardwareMap.get(DcMotorEx.class, "FLM");
-        leftRear = hardwareMap.get(DcMotorEx.class, "BLM");
-        rightFront = hardwareMap.get(DcMotorEx.class, "FRM");
-        rightRear = hardwareMap.get(DcMotorEx.class, "BRM");
+        leftFront = hardwareMap.get(DcMotorEx.class, "FLM02");
+        leftRear = hardwareMap.get(DcMotorEx.class, "BLM03");
+        rightFront = hardwareMap.get(DcMotorEx.class, "FRM01");
+        rightRear = hardwareMap.get(DcMotorEx.class, "BRM00");
 
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     @Override

@@ -22,12 +22,11 @@ public class Chassis {
      this.gamepad1 = gamepad1;
      this.imu = imu;
 
-     frontLeftMotor = hardwareMap.get(DcMotor.class, "FLM");
-     backLeftMotor = hardwareMap.get(DcMotor.class, "BLM");
-     frontRightMotor = hardwareMap.get(DcMotor.class, "FRM");
-     backRightMotor = hardwareMap.get(DcMotor.class, "BRM");
+     frontLeftMotor = hardwareMap.get(DcMotor.class, "FLM02");
+     backLeftMotor = hardwareMap.get(DcMotor.class, "BLM03");
+     frontRightMotor = hardwareMap.get(DcMotor.class, "FRM01");
+     backRightMotor = hardwareMap.get(DcMotor.class, "BRM00");
 
-     frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
      backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
      frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

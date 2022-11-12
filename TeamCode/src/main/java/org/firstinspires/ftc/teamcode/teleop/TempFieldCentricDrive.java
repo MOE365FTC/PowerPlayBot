@@ -14,13 +14,17 @@ public class TempFieldCentricDrive extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Declare our motors
         // Make sure your ID's match your configuration
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("FLM");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("BLM");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("FRM");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("BRM");
+        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("FLM02");
+        DcMotor motorBackLeft = hardwareMap.dcMotor.get("BLM03");
+        DcMotor motorFrontRight = hardwareMap.dcMotor.get("FRM01");
+        DcMotor motorBackRight = hardwareMap.dcMotor.get("BRM00");
 
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -54,20 +58,20 @@ public class TempFieldCentricDrive extends LinearOpMode {
             angle = Math.toDegrees(imu.getAngularOrientation().firstAngle) + 180.0;
             telemetry.addData("angle", angle);
             telemetry.update();
-            if(gamepad1.a){
-                autoTurnPower = Math.max(Math.min(angle%90, 90-angle%90)/80, 0.2);
-                if(angle % 90 >= 45){
-                    motorFrontLeft.setPower(-autoTurnPower);
-                    motorFrontLeft.setPower(-autoTurnPower);
-                    motorBackRight.setPower(autoTurnPower);
-                    motorFrontRight.setPower(autoTurnPower);
-                } else if(angle % 90 < 45){
-                    motorFrontLeft.setPower(autoTurnPower);
-                    motorFrontLeft.setPower(autoTurnPower);
-                    motorBackRight.setPower(-autoTurnPower);
-                    motorFrontRight.setPower(-autoTurnPower);
-                }
-            }
+//            if(gamepad1.a){
+//                autoTurnPower = Math.max(Math.min(angle%90, 90-angle%90)/80, 0.2);
+//                if(angle % 90 >= 45){
+//                    motorFrontLeft.setPower(-autoTurnPower);
+//                    motorFrontLeft.setPower(-autoTurnPower);
+//                    motorBackRight.setPower(autoTurnPower);
+//                    motorFrontRight.setPower(autoTurnPower);
+//                } else if(angle % 90 < 45){
+//                    motorFrontLeft.setPower(autoTurnPower);
+//                    motorFrontLeft.setPower(autoTurnPower);
+//                    motorBackRight.setPower(-autoTurnPower);
+//                    motorFrontRight.setPower(-autoTurnPower);
+//                }
+//            }
         }
     }
 }

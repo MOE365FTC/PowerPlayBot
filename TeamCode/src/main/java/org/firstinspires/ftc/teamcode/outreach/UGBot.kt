@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.control.PIDFController
 import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.*
@@ -12,6 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime
 import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sin
+@Disabled
 @TeleOp
 open class UGBot : OpMode() {
     var gyroOffset = Math.toRadians(90.0)

@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 
 /*
  * This is a simple routine to test translational drive capabilities.
@@ -27,12 +28,15 @@ public class StrafeTest extends LinearOpMode {
         Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())
                 .strafeRight(DISTANCE)
                 .build();
-
+        Trajectory trajectory1 = drive.trajectoryBuilder(trajectory.end())
+                        .strafeLeft(DISTANCE)
+        .build();
         waitForStart();
 
         if (isStopRequested()) return;
 
         drive.followTrajectory(trajectory);
+        drive.followTrajectory(trajectory1);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
