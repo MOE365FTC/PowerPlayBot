@@ -56,7 +56,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0.2, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(6, 0, 0);
 
-    public static double LATERAL_MULTIPLIER = .8175; //.752
+    public static double LATERAL_MULTIPLIER = 1.538; //.8175
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -69,7 +69,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private TrajectoryFollower follower;
 
-    private DcMotorEx leftFront, leftRear, rightRear, rightFront;
+    public DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
 
     private BNO055IMU imu;
@@ -304,8 +304,8 @@ public class SampleMecanumDrive extends MecanumDrive {
     @Override
     public Double getExternalHeadingVelocity() {
         // To work around an SDK bug, use -zRotationRate in place of xRotationRate
-        // and -xRotationRate in place of zRotationRate (yRotationRate behaves as 
-        // expected). This bug does NOT affect orientation. 
+        // and -xRotationRate in place of zRotationRate (yRotationRate behaves as
+        // expected). This bug does NOT affect orientation.
         //
         // See https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/251 for details.
         return (double) -imu.getAngularVelocity().xRotationRate;
