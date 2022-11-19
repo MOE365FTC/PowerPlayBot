@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 
 public class Turret {
     DcMotor turretMotor;
@@ -20,7 +21,6 @@ public class Turret {
     public Turret(HardwareMap hardwareMap, IMU imu, Gamepad gamepad1) {
         this.gamepad1 = gamepad1;
         this.imu = imu;
-
 //        turretMotor = hardwareMap.get(DcMotor.class, "TRM");
 //        turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -68,8 +68,12 @@ public class Turret {
 
     public void turnToDegree(int turnDegree, Telemetry telemetry) {
         double correctedDegrees = ((turnDegree - imu.getHeadingFirstAngle()) % 360) * ticksPerDegree; //field-centric angle
-//        turretMotor.setTargetPosition((int) correctedDegrees);
-//        turretMotor.setPower(turretPower);
+        turretMotor.setTargetPosition((int) correctedDegrees);
+        turretMotor.setPower(turretPower);
         telemetry.addData("Now turned to: ", (int) (correctedDegrees / ticksPerDegree) + " degrees");
+    }
+
+    public void autonCorrectedTurret(double targetX, double targetY, double currentX, double currentY){
+        turnToDegree((int) Math.atan2(Math.abs(targetY-currentY),(Math.abs(targetX-currentX))));
     }
 }
