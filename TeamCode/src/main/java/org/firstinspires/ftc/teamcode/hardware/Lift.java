@@ -11,8 +11,8 @@ public class Lift {
 
     DcMotor liftMotor;
     Servo fourBarServo;
-    int high = 600, mid = 400, low = 200, floor = 100, highGrab = 50, lowGrab = 30;
-    double upPos = 1.0, downPos = 0.0;
+    int high = 600, mid = 400, low = 200, floor = 10; //lift extension
+    double upPos = 1.0, straightPos = 0.5, downPos = 0.0;
     double liftPower;
     public Lift(HardwareMap hardwareMap, Gamepad gamepad1){
         this.hardwareMap = hardwareMap;
@@ -40,13 +40,13 @@ public class Lift {
             liftMotor.setPower(liftPower);
             fourBarServo.setPosition(upPos);
         } else if (gamepad1.a){
-            liftMotor.setTargetPosition(lowGrab);
+            liftMotor.setTargetPosition(floor);
             liftMotor.setPower(liftPower);
             fourBarServo.setPosition(downPos);
         } else if (gamepad1.right_stick_button){
             liftMotor.setTargetPosition(floor);
             liftMotor.setPower(liftPower);
-            fourBarServo.setPosition(upPos);
+            fourBarServo.setPosition(straightPos);
         }
     }
 
@@ -65,11 +65,13 @@ public class Lift {
                 liftMotor.setPower(liftPower);
                 break;
             case HIGH_GRAB:
-                liftMotor.setTargetPosition(highGrab);
+                liftMotor.setTargetPosition(floor);
+                fourBarServo.setPosition(straightPos);
                 liftMotor.setPower(liftPower);
                 break;
             case LOW_GRAB:
-                liftMotor.setTargetPosition(lowGrab);
+                liftMotor.setTargetPosition(floor);
+                fourBarServo.setPosition(downPos);
                 liftMotor.setPower(liftPower);
                 break;
         }

@@ -39,7 +39,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH_GRAB);
 //                            telemetry.update();
 //                })
-//                .turn(Math.toRadians(90))
+                .turn(Math.toRadians(90))
                 .lineToConstantHeading(new Vector2d(x2,y))
 //                .addDisplacementMarker(() -> {
 //                    robot.claw.grab();
@@ -122,7 +122,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 //                })
                 .build();
         TrajectorySequence case1 = drive.trajectorySequenceBuilder(traj.end())
-                .lineToConstantHeading(new Vector2d(-12,y))
+                .lineToConstantHeading(new Vector2d(-16,y))
 //                .addDisplacementMarker(() -> {
 //                    robot.turret.turnToDegree(0, telemetry);
 //                    telemetry.update();
@@ -171,6 +171,9 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("l", drive.rightRear.getCurrentPosition());
+            telemetry.addData("r", drive.leftFront.getCurrentPosition());
+            telemetry.addData("s", drive.leftRear.getCurrentPosition());
             telemetry.update();
         }
     }
