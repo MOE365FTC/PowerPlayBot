@@ -82,4 +82,16 @@ public class Lift {
         HIGH_GRAB,
         LOW_GRAB,
     }
+
+    public int getLiftTicks() {
+        return liftMotor.getCurrentPosition();
+    }
+
+    public double getFourBarTicks() {
+        return fourBarServo.getPosition();
+    }
+
+    public void nudgeFourBar() {
+        fourBarServo.setPosition(getFourBarTicks() + 0.1);
+    }
 }

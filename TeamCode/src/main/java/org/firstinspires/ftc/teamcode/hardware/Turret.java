@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 
 public class Turret {
+
     DcMotor turretMotor;
     IMU imu;
     Gamepad gamepad1;
@@ -75,5 +76,9 @@ public class Turret {
 
     public void autonCorrectedTurret(double targetX, double targetY, double currentX, double currentY){
         turretMotor.setTargetPosition(turretMotor.getCurrentPosition() + (int) (Math.atan2(Math.abs(targetY-currentY),(Math.abs(targetX-currentX))) * ticksPerDegree * Math.signum(targetY-currentY)));
+    }
+
+    public int getTurretMotorTicks() {
+        return turretMotor.getCurrentPosition();
     }
 }

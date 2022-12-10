@@ -33,4 +33,12 @@ public class Claw {
     public void release(){
         clawServo.setPosition(open);
     }
+
+    public double getClawTicks() {
+        return clawServo.getPosition();
+    }
+
+    public void nudgeClaw() {
+        clawServo.setPosition(getClawTicks() + 0.1);
+    }
 }
