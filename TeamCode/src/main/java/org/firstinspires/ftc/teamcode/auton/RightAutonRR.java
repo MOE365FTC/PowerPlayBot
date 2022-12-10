@@ -17,7 +17,7 @@ import java.util.TimerTask;
 public class RightAutonRR extends LinearOpMode { //test for auton using rr and markers instead of state-machine
 
     int strafeDistance = 20;
-    int y = 11;
+    int y = 8;
     int x1 = -36;
     int x2 = -55;
     int signalPos = -1; //default
@@ -88,7 +88,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 //                    robot.lift.autonActuate(Lift.autonLiftPos.LOW_GRAB);
 //                    telemetry.update();
 //                })
-                .lineToConstantHeading(new Vector2d(x2,y))
+//////                .lineToConstantHeading(new Vector2d(x2,y))
 //                .addDisplacementMarker(() -> {
 //                    robot.claw.grab();
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
@@ -96,7 +96,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 //                    robot.turret.turnToDegree(-45, telemetry);
 //                    telemetry.update();
 //                })
-                .lineToConstantHeading(new Vector2d(x1,y))
+//////                .lineToConstantHeading(new Vector2d(x1,y))
 //                .addDisplacementMarker(() -> {
 //                    robot.claw.release();
                 //retract lift
@@ -104,7 +104,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 //                    robot.lift.autonActuate(Lift.autonLiftPos.LOW_GRAB);
 //                    telemetry.update();
 //                })
-                .lineToConstantHeading(new Vector2d(x2,y))
+//////                .lineToConstantHeading(new Vector2d(x2,y))
 //                .addDisplacementMarker(() -> {
 //                    robot.claw.grab();
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
@@ -112,7 +112,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 //                    robot.turret.turnToDegree(-45, telemetry);
 //                    telemetry.update();
 //                })
-                .lineToConstantHeading(new Vector2d(x1,y))
+////////                .lineToConstantHeading(new Vector2d(x1,y))
 //                .addDisplacementMarker(() -> {
 //                    robot.claw.release();
                 //retract lift
@@ -137,27 +137,41 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
                 .build();
 
         while (!isStarted() && !isStopRequested()){ //init loop
-            telemetry.addLine("Ready to start!");
+            if(signalPos != -1) telemetry.addLine("Ready to start!");
+            robot.vision.visionLoop();
+            telemetry.addData("Detection: ", robot.vision.getSignalPos());
+            sleep(20);
+            signalPos = robot.vision.getSignalPos();
             telemetry.update();
-//            robot.vision.visionLoop();
-//            telemetry.addData("Detection: ", robot.vision.getSignalPos());
-//            telemetry.addData("Detections", vision.detections);
-//            telemetry.update();
-//            sleep(20);
-//            signalPos = robot.vision.getSignalPos();
         }
+
         waitForStart();
 //        robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
         drive.followTrajectorySequence(traj);
+        telemetry.addLine(String.valueOf(signalPos));
+        telemetry.update();
         switch(signalPos){
             case 1:
-                drive.followTrajectorySequenceAsync(case1);
+                telemetry.addLine("Case 1");
+                telemetry.update();
+                drive.followTrajectorySequence(case1);
                 break;
             case 3:
-                drive.followTrajectorySequenceAsync(case3);
+                telemetry.addLine("Case 3");
+                telemetry.update();
+                drive.followTrajectorySequence(case3);
                 break;
             default:
+                telemetry.addLine("Case 2");
+                telemetry.update();
                 break;
+        }
+        while(opModeIsActive()){
+            Pose2d poseEstimate = drive.getPoseEstimate();
+            telemetry.addData("x", poseEstimate.getX());
+            telemetry.addData("y", poseEstimate.getY());
+            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.update();
         }
     }
 }
