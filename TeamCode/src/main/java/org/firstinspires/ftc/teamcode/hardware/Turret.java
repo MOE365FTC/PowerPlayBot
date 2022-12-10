@@ -75,7 +75,7 @@ public class Turret {
     }
 
     public void autonCorrectedTurret(double targetX, double targetY, double currentX, double currentY){
-        turretMotor.setTargetPosition(turretMotor.getCurrentPosition() + (int) (Math.atan2(Math.abs(targetY-currentY),(Math.abs(targetX-currentX))) * ticksPerDegree * Math.signum(targetY-currentY)));
+        turretMotor.setTargetPosition(turretMotor.getCurrentPosition() + (int) Math.toDegrees(Math.atan2((targetY-currentY),(targetX-currentX)) * ticksPerDegree));
     }
 
     public int getTurretMotorTicks() {
