@@ -14,12 +14,12 @@ public class MOEBot {
     public Lift lift;
 
     //TeleOp Constructor
-    public MOEBot(HardwareMap hardwareMap, Gamepad gamepad1) {
+    public MOEBot(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2) {
 //        imu = new IMU(hardwareMap);
         chassis = new Chassis(hardwareMap, imu, gamepad1);
-//        claw = new Claw(hardwareMap, gamepad1);
-//        lift = new Lift(hardwareMap, gamepad1);
-//        turret = new Turret(hardwareMap, imu, gamepad1);
+//        claw = new Claw(hardwareMap, gamepad1, gamepad2);
+//        lift = new Lift(hardwareMap, gamepad2);
+//        turret = new Turret(hardwareMap, imu, gamepad2);
         vision = new Vision(hardwareMap);
     }
 

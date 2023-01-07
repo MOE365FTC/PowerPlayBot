@@ -7,16 +7,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Lift {
     HardwareMap hardwareMap;
-    Gamepad gamepad1;
+    Gamepad gamepad2;
 
     DcMotor liftMotorL, liftMotorR;
     Servo fourBarServo;
     int high = 600, mid = 400, low = 200, floor = 10; //lift extension
     double upPos = 1.0, straightPos = 0.5, downPos = 0.0;
     double liftPower = 0.6;
-    public Lift(HardwareMap hardwareMap, Gamepad gamepad1){
+    public Lift(HardwareMap hardwareMap, Gamepad gamepad2){
         this.hardwareMap = hardwareMap;
-        this.gamepad1 = gamepad1;
+        this.gamepad2 = gamepad2;
 
         liftMotorL = hardwareMap.get(DcMotor.class, "LLM");
         liftMotorR = hardwareMap.get(DcMotor.class, "RLM");
@@ -31,31 +31,31 @@ public class Lift {
     }
 
     public void actuate(){
-        if(gamepad1.y){
+        if(gamepad2.y){
             liftMotorL.setTargetPosition(high);
             liftMotorL.setPower(liftPower);
             liftMotorR.setTargetPosition(high);
             liftMotorR.setPower(liftPower);
             fourBarServo.setPosition(upPos);
-        } else if (gamepad1.x){
+        } else if (gamepad2.x){
             liftMotorL.setTargetPosition(mid);
             liftMotorL.setPower(liftPower);
             liftMotorR.setTargetPosition(mid);
             liftMotorR.setPower(liftPower);
             fourBarServo.setPosition(upPos);
-        } else if (gamepad1.b){
+        } else if (gamepad2.b){
             liftMotorL.setTargetPosition(low);
             liftMotorL.setPower(liftPower);
             liftMotorR.setTargetPosition(low);
             liftMotorR.setPower(liftPower);
             fourBarServo.setPosition(upPos);
-        } else if (gamepad1.a){
+        } else if (gamepad2.a){
             liftMotorL.setTargetPosition(floor);
             liftMotorL.setPower(liftPower);
             liftMotorR.setTargetPosition(floor);
             liftMotorR.setPower(liftPower);
             fourBarServo.setPosition(downPos);
-        } else if (gamepad1.right_stick_button){
+        } else if (gamepad2.right_stick_button){
             liftMotorL.setTargetPosition(floor);
             liftMotorL.setPower(liftPower);
             liftMotorR.setTargetPosition(floor);

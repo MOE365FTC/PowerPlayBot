@@ -25,7 +25,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        MOEBot robot = new MOEBot(hardwareMap, gamepad1); //angle - robot degree + (angle/2)
+        MOEBot robot = new MOEBot(hardwareMap, gamepad1, gamepad2); //angle - robot degree + (angle/2)
 
         Pose2d startPose = new Pose2d(-36, 60, Math.toRadians(-90));
         drive.setPoseEstimate(startPose);

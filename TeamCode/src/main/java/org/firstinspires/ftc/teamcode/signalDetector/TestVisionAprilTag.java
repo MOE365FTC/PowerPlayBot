@@ -16,7 +16,7 @@ public class TestVisionAprilTag extends LinearOpMode {
     @Override
     public void runOpMode()
     {
-        MOEBot robot = new MOEBot(hardwareMap, gamepad1);
+        MOEBot robot = new MOEBot(hardwareMap, gamepad1, gamepad2);
 
         //do roadrunner trajectory setup here
 

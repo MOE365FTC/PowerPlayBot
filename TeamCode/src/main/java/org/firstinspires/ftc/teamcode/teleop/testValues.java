@@ -9,7 +9,7 @@ public class testValues extends OpMode {
     MOEBot robot;
     @Override
     public void init() {
-        robot = new MOEBot(hardwareMap, gamepad1);
+        robot = new MOEBot(hardwareMap, gamepad1, gamepad2);
     }
 
     @Override
