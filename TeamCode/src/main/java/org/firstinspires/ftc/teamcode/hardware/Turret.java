@@ -55,9 +55,9 @@ public class Turret {
         }
         //MANUAL CONTROL, triggers move either +10 or -10 degrees
         if(gamepad1.left_trigger > 0.1 && turretMotor.getCurrentPosition() - (manualIncrement * ticksPerDegree) >= -maxManualTurn) { //deadzone
-            turnToDegree(turretMotor.getCurrentPosition() - (manualIncrement*ticksPerDegree));
+            turnToDegree(turretMotor.getCurrentPosition()/ticksPerDegree - manualIncrement);
         } else if(gamepad1.right_trigger > 0.1 && turretMotor.getCurrentPosition() + (manualIncrement * ticksPerDegree) <= maxManualTurn) {
-            turnToDegree(turretMotor.getCurrentPosition() + (manualIncrement*ticksPerDegree));
+            turnToDegree(turretMotor.getCurrentPosition()/ticksPerDegree + manualIncrement);
         }
     }
 
