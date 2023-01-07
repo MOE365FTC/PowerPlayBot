@@ -6,39 +6,52 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Claw {
-    Servo clawServo;
+    Servo leftClawServo, rightClawServo;
     Gamepad gamepad1;
     HardwareMap hardwareMap;
 
-    double open = 1.0, closed = 0.0;
+    double openL = 1.0, closedL = 0.0, openR = 0.0, closedR = 1.0;
     //teleop
     public Claw(HardwareMap hardwareMap, Gamepad gamepad1){
         this.hardwareMap = hardwareMap;
         this.gamepad1 = gamepad1;
 
-        clawServo = hardwareMap.get(Servo.class, "CGM");
+        leftClawServo = hardwareMap.get(Servo.class, "LCM");
+        rightClawServo = hardwareMap.get(Servo.class, "RCM");
     }
 
     public void actuate(){
         if(gamepad1.left_bumper){
-            clawServo.setPosition(closed);
+            leftClawServo.setPosition(closedL);
+            rightClawServo.setPosition(closedR);
         } else if (gamepad1.right_bumper){
-            clawServo.setPosition(open);
+            leftClawServo.setPosition(openL);
+            rightClawServo.setPosition(openR);
         }
     }
     public void grab(){
-        clawServo.setPosition(closed);
+        leftClawServo.setPosition(closedL);
+        rightClawServo.setPosition(closedR);
     }
 
     public void release(){
-        clawServo.setPosition(open);
+        leftClawServo.setPosition(openL);
+        rightClawServo.setPosition(openR);
     }
 
-    public double getClawTicks() {
-        return clawServo.getPosition();
+    public double getClawTicksL() {
+        return leftClawServo.getPosition();
     }
 
-    public void nudgeClaw() {
-        clawServo.setPosition(getClawTicks() + 0.1);
+    public double getClawTicksR() {
+        return rightClawServo.getPosition();
+    }
+
+    public void nudgeClawL(double stickY) {
+        leftClawServo.setPosition(getClawTicksL() + 0.1 * -Math.signum(stickY));
+    }
+
+    public void nudgeClawR(double stickY) {
+        rightClawServo.setPosition(getClawTicksL() + 0.1 * -Math.signum(stickY));
     }
 }
