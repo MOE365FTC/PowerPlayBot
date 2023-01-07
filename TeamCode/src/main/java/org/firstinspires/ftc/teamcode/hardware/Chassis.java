@@ -15,7 +15,7 @@ public class Chassis {
     LinearOpMode opMode;
     IMU imu;
 
-    double powerScalar = 0.6;
+    double driveSpeed = 0.6, scaleFactor;
 
     //Teleop Constructor
     public Chassis(HardwareMap hardwareMap, IMU imu, Gamepad gamepad1){
@@ -51,9 +51,10 @@ public class Chassis {
         double frontRightPower = (rotY - rotX - rx) / denominator;
         double backRightPower = (rotY + rotX - rx) / denominator;
 
-        frontLeftMotor.setPower(frontLeftPower * powerScalar);
-        backLeftMotor.setPower(backLeftPower * powerScalar);
-        frontRightMotor.setPower(frontRightPower * powerScalar);
-        backRightMotor.setPower(backRightPower * powerScalar);
+        scaleFactor = driveSpeed + gamepad1.right_trigger * (1 - driveSpeed);
+        frontLeftMotor.setPower(frontLeftPower * scaleFactor);
+        backLeftMotor.setPower(backLeftPower * scaleFactor);
+        frontRightMotor.setPower(frontRightPower * scaleFactor);
+        backRightMotor.setPower(backRightPower * scaleFactor);
     }
 }

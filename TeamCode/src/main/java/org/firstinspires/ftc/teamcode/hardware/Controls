@@ -16,6 +16,8 @@ dpad right: 90 deg
 dpad left: -90 deg
 dpad down: 180 deg
 
+Right trigger: manual turret rotation
+Left trigger: manual turret rotation
 diagonal (pressing two dpads at once): 45 degree intervals
 
 Claw:
@@ -25,4 +27,4 @@ Right Bumper: Open
 Chassis:
 Left Stick: Translation
 Right Stick: Rotation
-Right Trigger: Speed boost (NOT YET IMPLEMENTED)
+//TODO CHANGE BUTTON: Right Trigger: Speed boost
