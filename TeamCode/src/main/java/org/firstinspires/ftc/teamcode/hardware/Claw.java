@@ -11,22 +11,22 @@ public class Claw {
     Gamepad gamepad2;
     HardwareMap hardwareMap;
 
-    double openL = 1.0, closedL = 0.0, openR = 0.0, closedR = 1.0;
+    double openL = 0.8, closedL = 0.45, openR = 0.2, closedR = 0.6;
     //teleop
     public Claw(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2){
         this.hardwareMap = hardwareMap;
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
 
-        leftClawServo = hardwareMap.get(Servo.class, "LCM");
-        rightClawServo = hardwareMap.get(Servo.class, "RCM");
+        rightClawServo = hardwareMap.get(Servo.class, "RCS01");
+        leftClawServo = hardwareMap.get(Servo.class, "LCS02");
     }
 
     public void actuate(){
-        if(gamepad1.left_bumper || gamepad2.left_bumper){
+        if(gamepad1.left_bumper){
             leftClawServo.setPosition(closedL);
             rightClawServo.setPosition(closedR);
-        } else if (gamepad1.right_bumper || gamepad2.right_bumper){
+        } else if (gamepad1.right_bumper){
             leftClawServo.setPosition(openL);
             rightClawServo.setPosition(openR);
         }
@@ -55,5 +55,10 @@ public class Claw {
 
     public void nudgeClawR(double stickY) {
         rightClawServo.setPosition(getClawTicksL() + 0.1 * -Math.signum(stickY));
+    }
+
+    public void startClawPos(){
+        rightClawServo.setPosition(openR);
+        leftClawServo.setPosition(openL);
     }
 }

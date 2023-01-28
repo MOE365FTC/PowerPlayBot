@@ -12,52 +12,45 @@ public class Turret {
     IMU imu;
     Gamepad gamepad2;
 
-    int ticksPerDegree = 100; //temp value
+    double ticksPerDegree = 8.56; //temp value
     int manualIncrement = 10; //amount of degrees manual control moves per press of trigger
-    int maxManualTurn = 190*ticksPerDegree;
+    double maxManualTurn = 190*ticksPerDegree;
 
-    double turretPower = 0.6;
+    double turretPower = 0.5;
 
     public Turret(HardwareMap hardwareMap, IMU imu, Gamepad gamepad2) {
         this.gamepad2 = gamepad2;
         this.imu = imu;
-//        turretMotor = hardwareMap.get(DcMotor.class, "TRM");
-//        turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        turretMotor = hardwareMap.get(DcMotor.class, "TRM02");
+        turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        turretMotor.setTargetPosition(0);
+        turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void actuate() {
         if (gamepad2.dpad_up && gamepad2.dpad_right) {
             //45 deg
-            turnToDegree(45);
-        } else if (gamepad2.dpad_right && gamepad2.dpad_down) {
-            //135 deg
-            turnToDegree(135);
-        } else if (gamepad2.dpad_down && gamepad2.dpad_left) {
-            //225 deg
-            turnToDegree(-135);
+            turnToDegree(-45);
         } else if (gamepad2.dpad_left && gamepad2.dpad_up) {
             //315 deg
-            turnToDegree(-45);
+            turnToDegree(45);
         } else if (gamepad2.dpad_up) {
             //0 deg
             turnToDegree(0);
         } else if (gamepad2.dpad_right) {
             //90 deg
-            turnToDegree(90);
-        } else if (gamepad2.dpad_down) {
-            //180 deg(
-            turnToDegree(turretMotor.getCurrentPosition() > 0 ? 180 : -180);
+            turnToDegree(-90);
         } else if (gamepad2.dpad_left) {
             //270 deg
-            turnToDegree(-90);
+            turnToDegree(90);
         }
         //MANUAL CONTROL, triggers move either +10 or -10 degrees
-        if(gamepad2.left_trigger > 0.1 && turretMotor.getCurrentPosition() - (manualIncrement * ticksPerDegree) >= -maxManualTurn) { //deadzone
-            turnToDegree(turretMotor.getCurrentPosition()/ticksPerDegree - manualIncrement);
-        } else if(gamepad2.right_trigger > 0.1 && turretMotor.getCurrentPosition() + (manualIncrement * ticksPerDegree) <= maxManualTurn) {
-            turnToDegree(turretMotor.getCurrentPosition()/ticksPerDegree + manualIncrement);
-        }
+//        if(gamepad2.left_trigger > 0.1 && turretMotor.getCurrentPosition() - (manualIncrement * ticksPerDegree) >= -maxManualTurn) { //deadzone
+//            turnToDegree((int)(turretMotor.getCurrentPosition()/ticksPerDegree - manualIncrement));
+//        } else if(gamepad2.right_trigger > 0.1 && turretMotor.getCurrentPosition() + (manualIncrement * ticksPerDegree) <= maxManualTurn) {
+//            turnToDegree((int)(turretMotor.getCurrentPosition()/ticksPerDegree + manualIncrement));
+//        }
     }
 
     public void turnToDegree(int turnDegree) {
@@ -79,5 +72,8 @@ public class Turret {
 
     public int getTurretMotorTicks() {
         return turretMotor.getCurrentPosition();
+    }
+    public int getTurretMotorTarget() {
+        return turretMotor.getTargetPosition();
     }
 }

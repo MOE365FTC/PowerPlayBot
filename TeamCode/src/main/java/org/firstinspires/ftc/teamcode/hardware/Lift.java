@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -9,25 +10,30 @@ public class Lift {
     HardwareMap hardwareMap;
     Gamepad gamepad2;
 
-    DcMotor liftMotorL, liftMotorR;
+    public DcMotor liftMotorL, liftMotorR;
     Servo fourBarServo;
-    int high = 600, mid = 400, low = 200, floor = 10; //lift extension
-    double upPos = 1.0, straightPos = 0.5, downPos = 0.0;
+    int high = 4000, mid = 2000, low = 1000, floor = 10; //lift extension
+    double upPos = 0.4, straightPos = 0.6, downPos = 0.7;
     double liftPower = 0.6;
     public Lift(HardwareMap hardwareMap, Gamepad gamepad2){
         this.hardwareMap = hardwareMap;
         this.gamepad2 = gamepad2;
 
-        liftMotorL = hardwareMap.get(DcMotor.class, "LLM");
-        liftMotorR = hardwareMap.get(DcMotor.class, "RLM");
-        fourBarServo = hardwareMap.get(Servo.class, "FBS");
+        liftMotorL = hardwareMap.get(DcMotor.class, "LLM00");
+        liftMotorR = hardwareMap.get(DcMotor.class, "RLM01");
+        fourBarServo = hardwareMap.get(Servo.class, "FBS00");
+
+        liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         liftMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftMotorL.setTargetPosition(0);
-        liftMotorR.setTargetPosition(0);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        liftMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        liftMotorL.setTargetPosition(0);
+//        liftMotorR.setTargetPosition(0);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void actuate(){
@@ -48,13 +54,10 @@ public class Lift {
             liftMotorL.setPower(liftPower);
             liftMotorR.setTargetPosition(low);
             liftMotorR.setPower(liftPower);
-            fourBarServo.setPosition(upPos);
-        } else if (gamepad2.a){
-            liftMotorL.setTargetPosition(floor);
             liftMotorL.setPower(liftPower);
             liftMotorR.setTargetPosition(floor);
             liftMotorR.setPower(liftPower);
-            fourBarServo.setPosition(downPos);
+            fourBarServo.setPosition(straightPos);
         } else if (gamepad2.right_stick_button){
             liftMotorL.setTargetPosition(floor);
             liftMotorL.setPower(liftPower);
@@ -121,7 +124,34 @@ public class Lift {
         return fourBarServo.getPosition();
     }
 
-    public void nudgeFourBar() {
-        fourBarServo.setPosition(getFourBarTicks() + 0.1);
+    public void startFourBarPos(){
+        fourBarServo.setPosition(straightPos);
+    }
+
+    public void tempAcutate(){
+        if(gamepad2.y) {
+            liftMotorL.setPower(0.6);
+            liftMotorR.setPower(0.6);
+        } else if(gamepad2.a) {
+            liftMotorL.setPower(-0.6);
+            liftMotorR.setPower(-0.6);
+        } else {
+            liftMotorR.setPower(0);
+            if(gamepad2.left_bumper) {
+                liftMotorL.setPower(0.6);
+            } else if(gamepad2.left_trigger > 0.6) {
+                liftMotorL.setPower(-0.6);
+            } else{
+                liftMotorL.setPower(0);
+            }
+
+            if(gamepad2.right_bumper) {
+                liftMotorR.setPower(0.6);
+            } else if(gamepad2.right_trigger > 0.6) {
+                liftMotorR.setPower(-0.6);
+            } else{
+                liftMotorR.setPower(0);
+            }
+        }
     }
 }

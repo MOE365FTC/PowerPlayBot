@@ -15,7 +15,7 @@ public class testValues extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.a) {
-            robot.lift.nudgeFourBar();
+//            robot.lift.nudgeFourBar();
         } else if (gamepad1.b) {
             robot.claw.nudgeClawR(gamepad1.left_stick_y);
         } else if (gamepad1.x){
@@ -28,7 +28,7 @@ public class testValues extends OpMode {
         telemetry.addData("TurretTicks: ", robot.turret.getTurretMotorTicks());
         telemetry.addData("LiftTicks: ", robot.lift.getLiftTicksL());
         telemetry.addData("LiftTicks: ", robot.lift.getLiftTicksR());
-        telemetry.addData("FourBarTicks", robot.lift.getFourBarTicks());
+//        telemetry.addData("FourBarTicks", robot.lift.getFourBarTicks());
         telemetry.addData("ClawTicksL", robot.claw.getClawTicksL());
         telemetry.addData("ClawTicksR", robot.claw.getClawTicksR());
     }

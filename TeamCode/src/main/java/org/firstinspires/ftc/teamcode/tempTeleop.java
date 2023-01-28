@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.hardware.MOEBot;
 
 @TeleOp
-public class Teleop extends OpMode {
+public class tempTeleop extends OpMode {
     MOEBot robot;
     @Override
     public void init() {
@@ -22,14 +22,20 @@ public class Teleop extends OpMode {
 
     @Override
     public void loop() {
-        robot.lift.actuate();
+//        robot.lift.actuate();
         robot.claw.actuate();
         robot.turret.actuate();
         robot.chassis.fieldCentricDrive();
+        robot.lift.tempAcutate();
+
         telemetry.addData("turret target", robot.turret.getTurretMotorTarget());
         telemetry.addData("turret pos", robot.turret.getTurretMotorTicks());
         telemetry.addData("heading imu" ,robot.imu.getHeadingFirstAngle());
         telemetry.addData("left lift", robot.lift.getLiftTicksL());
         telemetry.addData("right lift", robot.lift.getLiftTicksR());
+
+
+
+
     }
 }

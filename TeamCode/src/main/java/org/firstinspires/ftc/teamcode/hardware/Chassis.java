@@ -22,10 +22,10 @@ public class Chassis {
      this.gamepad1 = gamepad1;
      this.imu = imu;
 
-     frontLeftMotor = hardwareMap.get(DcMotor.class, "FLM02");
-     backLeftMotor = hardwareMap.get(DcMotor.class, "BLM03");
-     frontRightMotor = hardwareMap.get(DcMotor.class, "FRM01");
-     backRightMotor = hardwareMap.get(DcMotor.class, "BRM00");
+     frontLeftMotor = hardwareMap.get(DcMotor.class, "FLM10");
+     backLeftMotor = hardwareMap.get(DcMotor.class, "BLM12");
+     frontRightMotor = hardwareMap.get(DcMotor.class, "FRM11");
+     backRightMotor = hardwareMap.get(DcMotor.class, "BRM13");
 
      backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -36,11 +36,11 @@ public class Chassis {
     }
 
     public void fieldCentricDrive(){
-        double y = -gamepad1.left_stick_y;
-        double x = gamepad1.left_stick_x;
+        double y = gamepad1.left_stick_y;
+        double x = -gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
 
-        double botHeading = -imu.getHeadingFirstAngle();
+        double botHeading = Math.toRadians(-imu.getHeadingFirstAngle());
 
         double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
         double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);

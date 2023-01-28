@@ -26,9 +26,9 @@ public class IMU {
         this(hardwareMap);
     }
 
-    double getHeadingFirstAngle(){
+    public double getHeadingFirstAngle(){
         double heading;
         heading = imu.getAngularOrientation().firstAngle;
-        return heading;
+        return Math.toDegrees(heading);
     }
 }
