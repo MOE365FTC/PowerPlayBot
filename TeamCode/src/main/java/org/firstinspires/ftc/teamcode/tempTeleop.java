@@ -22,20 +22,15 @@ public class tempTeleop extends OpMode {
 
     @Override
     public void loop() {
-//        robot.lift.actuate();
+        robot.lift.actuate();
         robot.claw.actuate();
-        robot.turret.actuate();
+        robot.turret.manualTurret();
         robot.chassis.fieldCentricDrive();
-        robot.lift.tempAcutate();
-
+        robot.lift.manualLift();
         telemetry.addData("turret target", robot.turret.getTurretMotorTarget());
         telemetry.addData("turret pos", robot.turret.getTurretMotorTicks());
         telemetry.addData("heading imu" ,robot.imu.getHeadingFirstAngle());
         telemetry.addData("left lift", robot.lift.getLiftTicksL());
-        telemetry.addData("right lift", robot.lift.getLiftTicksR());
-
-
-
-
+//        telemetry.addData("right lift", robot.lift.getLiftTicksR());
     }
 }

@@ -27,7 +27,7 @@ public class testValues extends OpMode {
     public void telemetryOut() {
         telemetry.addData("TurretTicks: ", robot.turret.getTurretMotorTicks());
         telemetry.addData("LiftTicks: ", robot.lift.getLiftTicksL());
-        telemetry.addData("LiftTicks: ", robot.lift.getLiftTicksR());
+//        telemetry.addData("LiftTicks: ", robot.lift.getLiftTicksR());
 //        telemetry.addData("FourBarTicks", robot.lift.getFourBarTicks());
         telemetry.addData("ClawTicksL", robot.claw.getClawTicksL());
         telemetry.addData("ClawTicksR", robot.claw.getClawTicksR());

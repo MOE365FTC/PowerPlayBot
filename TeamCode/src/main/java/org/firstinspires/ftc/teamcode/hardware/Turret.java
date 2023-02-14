@@ -23,35 +23,36 @@ public class Turret {
         this.imu = imu;
         turretMotor = hardwareMap.get(DcMotor.class, "TRM02");
         turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        turretMotor.setTargetPosition(0);
-        turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        turretMotor.setTargetPosition(0);
+//        turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void actuate() {
-        if (gamepad2.dpad_up && gamepad2.dpad_right) {
-            //45 deg
-            turnToDegree(-45);
-        } else if (gamepad2.dpad_left && gamepad2.dpad_up) {
-            //315 deg
-            turnToDegree(45);
-        } else if (gamepad2.dpad_up) {
-            //0 deg
-            turnToDegree(0);
-        } else if (gamepad2.dpad_right) {
-            //90 deg
-            turnToDegree(-90);
-        } else if (gamepad2.dpad_left) {
-            //270 deg
-            turnToDegree(90);
-        }
-        //MANUAL CONTROL, triggers move either +10 or -10 degrees
-//        if(gamepad2.left_trigger > 0.1 && turretMotor.getCurrentPosition() - (manualIncrement * ticksPerDegree) >= -maxManualTurn) { //deadzone
-//            turnToDegree((int)(turretMotor.getCurrentPosition()/ticksPerDegree - manualIncrement));
-//        } else if(gamepad2.right_trigger > 0.1 && turretMotor.getCurrentPosition() + (manualIncrement * ticksPerDegree) <= maxManualTurn) {
-//            turnToDegree((int)(turretMotor.getCurrentPosition()/ticksPerDegree + manualIncrement));
+//    public void actuate() {
+//        if (gamepad2.dpad_up && gamepad2.dpad_right) {
+//            //45 deg
+//            turnToDegree(-45);
+//        } else if (gamepad2.dpad_left && gamepad2.dpad_up) {
+//            //315 deg
+//            turnToDegree(45);
+//        } else if (gamepad2.dpad_up) {
+//            //0 deg
+//            turnToDegree(0);
+//        } else if (gamepad2.dpad_right) {
+//            //90 deg
+//            turnToDegree(-90);
+//        } else if (gamepad2.dpad_left) {
+//            //270 deg
+//            turnToDegree(90);
 //        }
-    }
+//        //MANUAL CONTROL, triggers move either +10 or -10 degrees
+////        if(gamepad2.left_trigger > 0.1 && turretMotor.getCurrentPosition() - (manualIncrement * ticksPerDegree) >= -maxManualTurn) { //deadzone
+////            turnToDegree((int)(turretMotor.getCurrentPosition()/ticksPerDegree - manualIncrement));
+////        } else if(gamepad2.right_trigger > 0.1 && turretMotor.getCurrentPosition() + (manualIncrement * ticksPerDegree) <= maxManualTurn) {
+////            turnToDegree((int)(turretMotor.getCurrentPosition()/ticksPerDegree + manualIncrement));
+////        }
+//    }
 
     public void turnToDegree(int turnDegree) {
         double correctedDegrees = ((turnDegree - imu.getHeadingFirstAngle()) % 360) * ticksPerDegree; //field-centric angle
@@ -76,4 +77,30 @@ public class Turret {
     public int getTurretMotorTarget() {
         return turretMotor.getTargetPosition();
     }
+
+    public void startAuton(){
+        turretMotor.setTargetPosition(300);
+        turretMotor.setPower(0.4);
+    }
+
+    public void straightAuton(){
+        turretMotor.setTargetPosition(0);
+        turretMotor.setPower(0.4);
+    }
+
+    public void startTeleOp(){
+        turretMotor.setTargetPosition(0);
+        turretMotor.setPower(0.4);
+    }
+
+    public void manualTurret(){
+        if(gamepad2.dpad_right){
+            turretMotor.setPower(-0.3);
+        } else if(gamepad2.dpad_left){
+            turretMotor.setPower(0.3);
+        } else{
+            turretMotor.setPower(0.0);
+        }
+    }
+
 }

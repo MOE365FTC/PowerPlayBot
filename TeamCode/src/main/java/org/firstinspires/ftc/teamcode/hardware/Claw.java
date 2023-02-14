@@ -23,10 +23,10 @@ public class Claw {
     }
 
     public void actuate(){
-        if(gamepad1.left_bumper){
+        if(gamepad1.left_bumper || gamepad2.left_bumper){
             leftClawServo.setPosition(closedL);
             rightClawServo.setPosition(closedR);
-        } else if (gamepad1.right_bumper){
+        } else if (gamepad1.right_bumper || gamepad2.right_bumper){
             leftClawServo.setPosition(openL);
             rightClawServo.setPosition(openR);
         }
