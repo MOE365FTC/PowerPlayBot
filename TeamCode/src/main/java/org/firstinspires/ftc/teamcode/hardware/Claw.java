@@ -11,7 +11,7 @@ public class Claw {
     Gamepad gamepad2;
     HardwareMap hardwareMap;
 
-    double openL = 0.8, closedL = 0.45, openR = 0.2, closedR = 0.6;
+    double openL = 0.9, closedL = 0.45, openR = 0.2, closedR = 0.6;
     //teleop
     public Claw(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2){
         this.hardwareMap = hardwareMap;

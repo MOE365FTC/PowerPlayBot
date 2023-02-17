@@ -95,12 +95,11 @@ public class Turret {
 
     public void manualTurret(){
         if(gamepad2.dpad_right){
-            turretMotor.setPower(-0.3);
+            turretMotor.setPower(-0.2);
         } else if(gamepad2.dpad_left){
-            turretMotor.setPower(0.3);
+            turretMotor.setPower(0.2);
         } else{
             turretMotor.setPower(0.0);
         }
     }
-
 }

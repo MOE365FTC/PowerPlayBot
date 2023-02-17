@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Config
 public class Chassis {
-    DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
+    public DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
 
     Gamepad gamepad1;
     LinearOpMode opMode;
