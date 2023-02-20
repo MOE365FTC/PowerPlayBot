@@ -27,7 +27,8 @@ public class Chassis {
      frontRightMotor = hardwareMap.get(DcMotor.class, "FRM11");
      backRightMotor = hardwareMap.get(DcMotor.class, "BRM13");
 
-     backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+     backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+     frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
      frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
      backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -38,7 +39,7 @@ public class Chassis {
     public void fieldCentricDrive(){
         double y = gamepad1.left_stick_y;
         double x = -gamepad1.left_stick_x;
-        double rx = gamepad1.right_stick_x;
+        double rx = -gamepad1.right_stick_x;
 
         double botHeading = Math.toRadians(-imu.getHeadingFirstAngle());
 

@@ -13,7 +13,7 @@ public class Lift {
     public DcMotor liftMotorL;
     public DcMotor liftMotorR;
     Servo fourBarServo;
-    int high = 1480, mid = 900, low = 350, floor = 15; //lift extension
+    int high = 1440, mid = 860, low = 350, floor = 15; //lift extension
     double upPos = 0.1, straightPos = 0.7, downPos = 0.7;
     double liftPower = 0.4;
     public Lift(HardwareMap hardwareMap, Gamepad gamepad2){
@@ -135,10 +135,12 @@ public class Lift {
 
     public void manualLift(){
         if(gamepad2.right_trigger > 0.1){
-            liftMotorL.setTargetPosition((int) (liftMotorL.getCurrentPosition() + 30));
+            liftMotorL.setTargetPosition((int) (liftMotorL.getCurrentPosition() + 60));
+            liftMotorR.setTargetPosition((int) (liftMotorL.getCurrentPosition() + 60));
             liftMotorL.setPower(liftPower);
         } else if(gamepad2.left_trigger > 0.1){
-            liftMotorL.setTargetPosition((int) (liftMotorL.getCurrentPosition() - 30));
+            liftMotorL.setTargetPosition((int) (liftMotorL.getCurrentPosition() - 60));
+            liftMotorR.setTargetPosition((int) (liftMotorL.getCurrentPosition() - 60));
             liftMotorL.setPower(liftPower);
         }
     }

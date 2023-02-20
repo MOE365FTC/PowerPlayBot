@@ -26,7 +26,7 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         robot.lift.actuate();
-//        robot.lift.manualLift();
+        robot.lift.manualLift();
 //        if(vs.getVoltage() < 10.5){
 //            gamepad1.rumble(10);
 //            gamepad2.rumble(10);
