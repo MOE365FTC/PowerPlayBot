@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 @Autonomous(group = "drive")
 public class BackAndForth extends LinearOpMode {
 
-    public static double DISTANCE = 50;
+    public static double DISTANCE = 24;
 
     @Override
     public void runOpMode() throws InterruptedException {

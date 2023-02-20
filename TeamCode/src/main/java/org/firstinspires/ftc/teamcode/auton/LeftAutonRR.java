@@ -27,7 +27,7 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         MOEBot robot = new MOEBot(hardwareMap, gamepad1, gamepad2); //angle - robot degree + (angle/2)
 
-        Pose2d startPose = new Pose2d(36, 60, Math.toRadians(-90));
+        Pose2d startPose = new Pose2d(36, 60, Math.toRadians(-90)); //heading -90
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence traj = drive.trajectorySequenceBuilder(startPose)
@@ -58,14 +58,14 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
                 .build();
 
         TrajectorySequence case1 = drive.trajectorySequenceBuilder(traj.end())
-                .lineToConstantHeading(new Vector2d(-16,y))
+                .lineToConstantHeading(new Vector2d(-16,-y))
 //                .addDisplacementMarker(() -> {
 //                    robot.turret.turnToDegree(0, telemetry);
 //                    telemetry.update();
 //                })
                 .build();
         TrajectorySequence case3 = drive.trajectorySequenceBuilder(traj.end())
-                .lineToConstantHeading(new Vector2d(x2,y))
+                .lineToConstantHeading(new Vector2d(x2,-y))
 //                .addDisplacementMarker(() -> {
 //                    robot.turret.turnToDegree(0, telemetry);
 //                    telemetry.update();
@@ -80,11 +80,11 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
             signalPos = robot.vision.getSignalPos();
             telemetry.update();
 
-            robot.turret.turnToDegree(-45);
+//            robot.turret.turnToDegree(-45);
         }
 
         waitForStart();
-        robot.turret.turnToDegree(0);
+//        robot.turret.turnToDegree(0);
         robot.claw.grab();
 //        robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
         drive.followTrajectorySequence(traj);

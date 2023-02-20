@@ -20,7 +20,7 @@ public class MOEBot {
         claw = new Claw(hardwareMap, gamepad1, gamepad2);
         lift = new Lift(hardwareMap, gamepad2);
         turret = new Turret(hardwareMap, imu, gamepad2);
-//        vision = new Vision(hardwareMap);
+        vision = new Vision(hardwareMap);
     }
 
     //Autonomous Constructor
