@@ -39,7 +39,6 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH_GRAB);
 //                            telemetry.update();
 //                })
-                .turn(Math.toRadians(90))
                 .lineToConstantHeading(new Vector2d(x2,y))
 //                .addDisplacementMarker(() -> {
 //                    robot.claw.grab();
@@ -56,71 +55,8 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH_GRAB);
 //                    telemetry.update();
 //                })
-                .lineToConstantHeading(new Vector2d(x2,y))
-//                .addDisplacementMarker(() -> {
-//                    robot.claw.grab();
-//                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                //wait till cone is securely grabbed
-//                    robot.turret.turnToDegree(-45, telemetry);
-//                    telemetry.update();
-//                })
-                .lineToConstantHeading(new Vector2d(x1,y))
-//                .addDisplacementMarker(() -> {
-//                    robot.claw.release();
-                //retract lift
-//                    robot.turret.turnToDegree(90, telemetry);
-//                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH_GRAB);
-//                    telemetry.update();
-//                })
-                .lineToConstantHeading(new Vector2d(x2,y))
-//                .addDisplacementMarker(() -> {
-//                    robot.claw.grab();
-//                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                //wait till cone is securely grabbed
-//                    robot.turret.turnToDegree(-45, telemetry);
-//                    telemetry.update();
-//                })
-                .lineToConstantHeading(new Vector2d(x1,y))
-//                .addDisplacementMarker(() -> {
-//                    robot.claw.release();
-                //retract lift
-//                    robot.turret.turnToDegree(90, telemetry);
-//                    robot.lift.autonActuate(Lift.autonLiftPos.LOW_GRAB);
-//                    telemetry.update();
-//                })
-//////                .lineToConstantHeading(new Vector2d(x2,y))
-//                .addDisplacementMarker(() -> {
-//                    robot.claw.grab();
-//                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                //wait till cone is securely grabbed
-//                    robot.turret.turnToDegree(-45, telemetry);
-//                    telemetry.update();
-//                })
-//////                .lineToConstantHeading(new Vector2d(x1,y))
-//                .addDisplacementMarker(() -> {
-//                    robot.claw.release();
-                //retract lift
-//                    robot.turret.turnToDegree(90, telemetry);
-//                    robot.lift.autonActuate(Lift.autonLiftPos.LOW_GRAB);
-//                    telemetry.update();
-//                })
-//////                .lineToConstantHeading(new Vector2d(x2,y))
-//                .addDisplacementMarker(() -> {
-//                    robot.claw.grab();
-//                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                //wait till cone is securely grabbed
-//                    robot.turret.turnToDegree(-45, telemetry);
-//                    telemetry.update();
-//                })
-////////                .lineToConstantHeading(new Vector2d(x1,y))
-//                .addDisplacementMarker(() -> {
-//                    robot.claw.release();
-                //retract lift
-//                    robot.turret.turnToDegree(90, telemetry);
-//                    robot.lift.autonActuate(Lift.autonLiftPos.LOW_GRAB);
-//                    telemetry.update();
-//                })
                 .build();
+
         TrajectorySequence case1 = drive.trajectorySequenceBuilder(traj.end())
                 .lineToConstantHeading(new Vector2d(-16,y))
 //                .addDisplacementMarker(() -> {
@@ -143,9 +79,13 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
             sleep(20);
             signalPos = robot.vision.getSignalPos();
             telemetry.update();
+
+            robot.turret.turnToDegree(-45);
         }
 
         waitForStart();
+        robot.turret.turnToDegree(0);
+        robot.claw.grab();
 //        robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
         drive.followTrajectorySequence(traj);
         telemetry.addLine(String.valueOf(signalPos));

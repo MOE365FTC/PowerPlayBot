@@ -16,7 +16,7 @@ public class Turret {
     int manualIncrement = 10; //amount of degrees manual control moves per press of trigger
     double maxManualTurn = 190*ticksPerDegree;
 
-    double turretPower = 0.5;
+    double turretPower = 0.6;
 
     public Turret(HardwareMap hardwareMap, IMU imu, Gamepad gamepad2) {
         this.gamepad2 = gamepad2;
