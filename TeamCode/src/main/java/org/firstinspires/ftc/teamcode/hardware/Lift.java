@@ -13,8 +13,8 @@ public class Lift {
     public DcMotor liftMotorL;
     public DcMotor liftMotorR;
     Servo fourBarServo;
-    int high = 1440, mid = 860, low = 350, floor = 15, highGrab = 80; //lift extension
-    double upPos = 0.1, straightPos = 0.7, downPos = 0.7;
+    int high = 1440, mid = 860, low = 350, floor = 15, stack5 = 80, stack4 = 60, stack3 = 45, stack2 = 25; //lift extension
+    double upPos = 0.2, straightPos = 0.8;
     double liftPower = 0.4;
     public Lift(HardwareMap hardwareMap, Gamepad gamepad2){
         this.hardwareMap = hardwareMap;
@@ -63,19 +63,37 @@ public class Lift {
             liftMotorR.setTargetPosition(floor);
             liftMotorR.setPower(liftPower);
             fourBarServo.setPosition(straightPos);
-        } else if (gamepad2.right_stick_button){
-            liftMotorL.setTargetPosition(floor);
+        } else if (gamepad2.dpad_up){
+            liftMotorL.setTargetPosition(stack5);
             liftMotorL.setPower(liftPower);
-//            liftMotorR.setTargetPosition(floor);
-//            liftMotorR.setPower(liftPower);
+            liftMotorR.setTargetPosition(stack5);
+            liftMotorR.setPower(liftPower);
+            fourBarServo.setPosition(straightPos);
+        }else if (gamepad2.dpad_right){
+            liftMotorL.setTargetPosition(stack4);
+            liftMotorL.setPower(liftPower);
+            liftMotorR.setTargetPosition(stack4);
+            liftMotorR.setPower(liftPower);
+            fourBarServo.setPosition(straightPos);
+        } else if (gamepad2.dpad_left){
+            liftMotorL.setTargetPosition(stack3);
+            liftMotorL.setPower(liftPower);
+            liftMotorR.setTargetPosition(stack3);
+            liftMotorR.setPower(liftPower);
+            fourBarServo.setPosition(straightPos);
+        } else if (gamepad2.dpad_down){
+            liftMotorL.setTargetPosition(stack2);
+            liftMotorL.setPower(liftPower);
+            liftMotorR.setTargetPosition(stack2);
+            liftMotorR.setPower(liftPower);
             fourBarServo.setPosition(straightPos);
         }
 
-        if(gamepad2.dpad_down){
-            fourBarServo.setPosition(straightPos);
-        } else if(gamepad2.dpad_up){
-            fourBarServo.setPosition(upPos);
+        if(Math.abs(-gamepad2.left_stick_y) > 0.1 && fourBarServo.getPosition() <= 0.8 && fourBarServo.getPosition() >= 0.2){
+                fourBarServo.setPosition(fourBarServo.getPosition() + 0.01 * -Math.signum(gamepad2.left_stick_y));
         }
+        if(fourBarServo.getPosition() > 0.8) fourBarServo.setPosition(0.8);
+        if(fourBarServo.getPosition() < 0.2) fourBarServo.setPosition(0.2);
     }
 
     public void autonActuate(autonLiftPos pos) {
@@ -106,9 +124,9 @@ public class Lift {
                 fourBarServo.setPosition(straightPos);
                 break;
             case LOW_GRAB:
-                liftMotorL.setTargetPosition(highGrab);
+                liftMotorL.setTargetPosition(stack5);
                 liftMotorL.setPower(liftPower);
-                liftMotorR.setTargetPosition(highGrab);
+                liftMotorR.setTargetPosition(stack5);
                 liftMotorR.setPower(liftPower);
                 fourBarServo.setPosition(straightPos);
                 break;

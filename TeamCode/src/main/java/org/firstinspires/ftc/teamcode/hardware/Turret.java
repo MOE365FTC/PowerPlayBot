@@ -94,12 +94,13 @@ public class Turret {
     }
 
     public void manualTurret(){
-        if(gamepad2.dpad_right){
-            turretMotor.setPower(-0.4);
-        } else if(gamepad2.dpad_left){
-            turretMotor.setPower(0.4);
-        } else{
-            turretMotor.setPower(0.0);
-        }
+//        if(gamepad2.dpad_right){
+//            turretMotor.setPower(-0.4);
+//        } else if(gamepad2.dpad_left){
+//            turretMotor.setPower(0.4);
+//        } else{
+//            turretMotor.setPower(0.0);
+//        } *
+        turretMotor.setPower(gamepad2.right_stick_x * 0.5);
     }
 }

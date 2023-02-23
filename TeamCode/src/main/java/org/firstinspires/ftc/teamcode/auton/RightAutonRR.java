@@ -27,7 +27,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         MOEBot robot = new MOEBot(hardwareMap, gamepad1, gamepad2); //angle - robot degree + (angle/2)
 
-        Pose2d startPose = new Pose2d(-36, 60, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(-36, 60, Math.toRadians(-90));
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence traj = drive.trajectorySequenceBuilder(startPose)
@@ -67,7 +67,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
                 .lineToConstantHeading(new Vector2d(x1,y))
                 .build();
         TrajectorySequence case1 = drive.trajectorySequenceBuilder(traj.end())
-                .lineToConstantHeading(new Vector2d(-16,y))
+                .lineToConstantHeading(new Vector2d(-12,y+4))
 //                .addDisplacementMarker(() -> {
 //                    robot.turret.turnToDegree(0, telemetry);
 //                    telemetry.update();
