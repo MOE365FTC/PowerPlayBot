@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Turret {
 
-    DcMotor turretMotor;
+    public DcMotor turretMotor;
     IMU imu;
     Gamepad gamepad2;
 
@@ -24,9 +24,9 @@ public class Turret {
         turretMotor = hardwareMap.get(DcMotor.class, "TRM02");
         turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        turretMotor.setTargetPosition(0);
-//        turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        turretMotor.setTargetPosition(0);
+        turretMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
 //    public void actuate() {

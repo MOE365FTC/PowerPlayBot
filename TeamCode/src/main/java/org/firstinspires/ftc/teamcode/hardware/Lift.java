@@ -90,7 +90,7 @@ public class Lift {
         }
 
         if(Math.abs(-gamepad2.left_stick_y) > 0.1 && fourBarServo.getPosition() <= 0.8 && fourBarServo.getPosition() >= 0.2){
-                fourBarServo.setPosition(fourBarServo.getPosition() + 0.01 * -Math.signum(gamepad2.left_stick_y));
+                fourBarServo.setPosition(fourBarServo.getPosition() + 0.01 * Math.signum(gamepad2.left_stick_y));
         }
         if(fourBarServo.getPosition() > 0.8) fourBarServo.setPosition(0.8);
         if(fourBarServo.getPosition() < 0.2) fourBarServo.setPosition(0.2);
@@ -116,6 +116,13 @@ public class Lift {
                 liftMotorR.setTargetPosition(low);
                 liftMotorR.setPower(liftPower);
                 break;
+            case FLOOR:
+                liftMotorL.setTargetPosition(floor);
+                liftMotorL.setPower(liftPower);
+                liftMotorR.setTargetPosition(floor);
+                liftMotorR.setPower(liftPower);
+                fourBarServo.setPosition(straightPos);
+                break;
             case HIGH_GRAB:
                 liftMotorL.setTargetPosition(floor);
                 liftMotorL.setPower(liftPower);
@@ -137,6 +144,7 @@ public class Lift {
         HIGH,
         MID,
         LOW,
+        FLOOR,
         HIGH_GRAB,
         LOW_GRAB,
     }
@@ -167,5 +175,9 @@ public class Lift {
             liftMotorR.setTargetPosition((int) (liftMotorL.getCurrentPosition() - 90));
             liftMotorL.setPower(liftPower);
         }
+    }
+
+    public void autonFourBar(boolean straight) {
+        fourBarServo.setPosition(straight ? straightPos:upPos);
     }
 }

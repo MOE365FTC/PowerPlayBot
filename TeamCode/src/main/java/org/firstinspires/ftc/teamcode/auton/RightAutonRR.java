@@ -32,13 +32,18 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 
         TrajectorySequence traj = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(x1,y))
-//                .addDisplacementMarker(() -> {
-//                    robot.turret.turnToDegree(-45, telemetry);
-//                    robot.claw.release();
-//                    robot.turret.turnToDegree(90, telemetry);
-//                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH_GRAB);
-//                            telemetry.update();
-//                })
+                .addDisplacementMarker(() -> {
+                    while(robot.lift.liftMotorL.isBusy()) {
+
+                    }
+                    robot.claw.release();
+                    robot.turret.turnToDegree(90, telemetry);
+                    while(robot.turret.turretMotor.isBusy()) {
+
+                    }
+                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH_GRAB);
+                    telemetry.update();
+                })
 //                .turn(Math.toRadians(90))
                 .lineToConstantHeading(new Vector2d(x2,y))
 //                .addDisplacementMarker(() -> {
@@ -81,6 +86,14 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 //                })
                 .build();
 
+        robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);
+        this.sleep(1000);
+        robot.claw.grab();
+        this.sleep(2000);
+        robot.lift.autonFourBar(false);
+        this.sleep(1000);
+        robot.turret.turnToDegree(30);
+
         while (!isStarted() && !isStopRequested()){ //init loop
             if(signalPos != -1) telemetry.addLine("Ready to start!");
             robot.vision.visionLoop();
@@ -91,6 +104,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
         }
 
         waitForStart();
+        robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
 //        robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
         drive.followTrajectorySequence(traj);
         telemetry.addLine(String.valueOf(signalPos));
