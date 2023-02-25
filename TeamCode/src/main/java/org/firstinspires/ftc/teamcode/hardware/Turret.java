@@ -17,6 +17,7 @@ public class Turret {
     double maxManualTurn = 190*ticksPerDegree;
 
     double turretPower = 0.6;
+    double autonPower = 0.3;
 
     public Turret(HardwareMap hardwareMap, IMU imu, Gamepad gamepad2) {
         this.gamepad2 = gamepad2;
@@ -63,12 +64,12 @@ public class Turret {
     public void turnToDegree(int turnDegree, Telemetry telemetry) {
         double correctedDegrees = ((turnDegree - imu.getHeadingFirstAngle()) % 360) * ticksPerDegree; //field-centric angle
         turretMotor.setTargetPosition((int) correctedDegrees);
-        turretMotor.setPower(turretPower);
+        turretMotor.setPower(autonPower);
         telemetry.addData("Now turned to: ", (int) (correctedDegrees / ticksPerDegree) + " degrees");
     }
 
     public void autonCorrectedTurret(double targetX, double targetY, double currentX, double currentY){
-        turretMotor.setTargetPosition(turretMotor.getCurrentPosition() + (int) Math.toDegrees(Math.atan2((targetY-currentY),(targetX-currentX)) * ticksPerDegree));
+        turretMotor.setTargetPosition(-(int) Math.toDegrees(Math.atan2((targetY-currentY),(targetX-currentX)) * ticksPerDegree));
     }
 
     public int getTurretMotorTicks() {
@@ -101,6 +102,8 @@ public class Turret {
 //        } else{
 //            turretMotor.setPower(0.0);
 //        } *
-        turretMotor.setPower(gamepad2.right_stick_x * 0.5);
+
+        turretMotor.setTargetPosition(turretMotor.getCurrentPosition() + (int) gamepad2.right_stick_x * 50);
+        turretMotor.setPower(turretPower);
     }
 }

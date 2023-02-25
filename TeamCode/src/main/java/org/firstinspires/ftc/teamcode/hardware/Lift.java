@@ -13,9 +13,10 @@ public class Lift {
     public DcMotor liftMotorL;
     public DcMotor liftMotorR;
     Servo fourBarServo;
-    int high = 1440, mid = 860, low = 350, floor = 15, stack5 = 80, stack4 = 60, stack3 = 45, stack2 = 25; //lift extension
+    int high = 1440, mid = 860, low = 350, floor = 15, stack5 = 280, stack4 = 250, stack3 = 60, stack2 = 30; //lift extension
     double upPos = 0.2, straightPos = 0.8;
-    double liftPower = 0.4;
+    double liftPower = 0.7;
+    double autonLiftPower = 0.55;
     public Lift(HardwareMap hardwareMap, Gamepad gamepad2){
         this.hardwareMap = hardwareMap;
         this.gamepad2 = gamepad2;
@@ -90,7 +91,7 @@ public class Lift {
         }
 
         if(Math.abs(-gamepad2.left_stick_y) > 0.1 && fourBarServo.getPosition() <= 0.8 && fourBarServo.getPosition() >= 0.2){
-                fourBarServo.setPosition(fourBarServo.getPosition() + 0.01 * Math.signum(gamepad2.left_stick_y));
+                fourBarServo.setPosition(fourBarServo.getPosition() + 0.01 * -Math.signum(gamepad2.left_stick_y));
         }
         if(fourBarServo.getPosition() > 0.8) fourBarServo.setPosition(0.8);
         if(fourBarServo.getPosition() < 0.2) fourBarServo.setPosition(0.2);
@@ -100,41 +101,58 @@ public class Lift {
         switch (pos) {
             case HIGH:
                 liftMotorL.setTargetPosition(high);
-                liftMotorL.setPower(liftPower);
+                liftMotorL.setPower(autonLiftPower);
                 liftMotorR.setTargetPosition(high);
-                liftMotorR.setPower(liftPower);
+                liftMotorR.setPower(autonLiftPower);
+                fourBarServo.setPosition(upPos);
                 break;
             case MID:
                 liftMotorL.setTargetPosition(mid);
-                liftMotorL.setPower(liftPower);
+                liftMotorL.setPower(autonLiftPower);
                 liftMotorR.setTargetPosition(mid);
-                liftMotorR.setPower(liftPower);
+                liftMotorR.setPower(autonLiftPower);
+                fourBarServo.setPosition(upPos);
                 break;
             case LOW:
                 liftMotorL.setTargetPosition(low);
-                liftMotorL.setPower(liftPower);
+                liftMotorL.setPower(autonLiftPower);
                 liftMotorR.setTargetPosition(low);
-                liftMotorR.setPower(liftPower);
+                liftMotorR.setPower(autonLiftPower);
+                fourBarServo.setPosition(upPos);
                 break;
             case FLOOR:
                 liftMotorL.setTargetPosition(floor);
-                liftMotorL.setPower(liftPower);
+                liftMotorL.setPower(autonLiftPower);
                 liftMotorR.setTargetPosition(floor);
-                liftMotorR.setPower(liftPower);
+                liftMotorR.setPower(autonLiftPower);
                 fourBarServo.setPosition(straightPos);
                 break;
-            case HIGH_GRAB:
-                liftMotorL.setTargetPosition(floor);
-                liftMotorL.setPower(liftPower);
-                liftMotorR.setTargetPosition(floor);
-                liftMotorR.setPower(liftPower);
-                fourBarServo.setPosition(straightPos);
-                break;
-            case LOW_GRAB:
+            case GRAB5:
                 liftMotorL.setTargetPosition(stack5);
-                liftMotorL.setPower(liftPower);
+                liftMotorL.setPower(autonLiftPower);
                 liftMotorR.setTargetPosition(stack5);
-                liftMotorR.setPower(liftPower);
+                liftMotorR.setPower(autonLiftPower);
+                fourBarServo.setPosition(straightPos);
+                break;
+            case GRAB4:
+                liftMotorL.setTargetPosition(stack4);
+                liftMotorL.setPower(autonLiftPower);
+                liftMotorR.setTargetPosition(stack4);
+                liftMotorR.setPower(autonLiftPower);
+                fourBarServo.setPosition(straightPos);
+                break;
+            case GRAB3:
+                liftMotorL.setTargetPosition(stack3);
+                liftMotorL.setPower(autonLiftPower);
+                liftMotorR.setTargetPosition(stack3);
+                liftMotorR.setPower(autonLiftPower);
+                fourBarServo.setPosition(straightPos);
+                break;
+            case GRAB2:
+                liftMotorL.setTargetPosition(stack2);
+                liftMotorL.setPower(autonLiftPower);
+                liftMotorR.setTargetPosition(stack2);
+                liftMotorR.setPower(autonLiftPower);
                 fourBarServo.setPosition(straightPos);
                 break;
         }
@@ -145,7 +163,10 @@ public class Lift {
         MID,
         LOW,
         FLOOR,
-        HIGH_GRAB,
+        GRAB5,
+        GRAB4,
+        GRAB3,
+        GRAB2,
         LOW_GRAB,
     }
 
@@ -179,5 +200,14 @@ public class Lift {
 
     public void autonFourBar(boolean straight) {
         fourBarServo.setPosition(straight ? straightPos:upPos);
+    }
+    public void lowerAuton(double ticks){
+        liftMotorL.setTargetPosition((int) liftMotorL.getTargetPosition() - (int) ticks);
+        liftMotorR.setTargetPosition((int) liftMotorR.getTargetPosition() - (int) ticks);
+        liftMotorL.setPower(autonLiftPower);
+        liftMotorR.setPower(autonLiftPower);
+    }
+    public void autonFourBarPos(double pos){
+        fourBarServo.setPosition(pos);
     }
 }
