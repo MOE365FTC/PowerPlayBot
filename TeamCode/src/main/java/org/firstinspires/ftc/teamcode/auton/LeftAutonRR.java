@@ -28,7 +28,7 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
 
         TrajectorySequence traj = drive.trajectorySequenceBuilder(startPose)
 //                .lineToConstantHeading(new Vector2d(x1+3,y-2))
-                .lineToConstantHeading(new Vector2d(x1+1, y+1))
+                .lineToConstantHeading(new Vector2d(x1, y))
 //                .addTemporalMarker(() -> {
 //                    robot.turret.autonCorrectedTurret(-24, -2, drive.getPoseEstimate().getX(), drive.getPoseEstimate().getY());
 //                })
@@ -131,7 +131,7 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
 //        sleep(1000);
         robot.lift.autonFourBar(false);
 //        sleep(1000);
-        robot.turret.turnToDegree(-41);
+        robot.turret.turnToDegree(-43);
         sleep(1500);
         robot.claw.grab();
         while (!isStarted() && !isStopRequested()){ //init loop

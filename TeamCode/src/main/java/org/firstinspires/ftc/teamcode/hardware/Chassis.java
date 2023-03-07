@@ -14,7 +14,7 @@ public class Chassis {
     Gamepad gamepad1;
     LinearOpMode opMode;
     IMU imu;
-
+    double headingOffset = 0;
     double driveSpeed = 0.6, scaleFactor;
 
     //Teleop Constructor
@@ -42,7 +42,7 @@ public class Chassis {
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
 
-        double botHeading = Math.toRadians(-imu.getHeadingFirstAngle());
+        double botHeading = Math.toRadians(-imu.getHeadingFirstAngle()) - headingOffset;
 
         double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
         double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
@@ -58,5 +58,9 @@ public class Chassis {
         backLeftMotor.setPower(backLeftPower * scaleFactor);
         frontRightMotor.setPower(frontRightPower * scaleFactor);
         backRightMotor.setPower(backRightPower * scaleFactor);
+
+        if(gamepad1.right_stick_button){
+            headingOffset = -imu.getHeadingFirstAngle();
+        }
     }
 }
