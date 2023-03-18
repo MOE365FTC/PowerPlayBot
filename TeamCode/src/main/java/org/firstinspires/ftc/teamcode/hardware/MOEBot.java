@@ -18,7 +18,7 @@ public class MOEBot {
         imu = new IMU(hardwareMap);
         chassis = new Chassis(hardwareMap, imu, gamepad1);
         claw = new Claw(hardwareMap, gamepad1, gamepad2);
-        lift = new Lift(hardwareMap, gamepad2);
+        lift = new Lift(hardwareMap, gamepad1, gamepad2);
         turret = new Turret(hardwareMap, imu, gamepad2);
         vision = new Vision(hardwareMap);
     }

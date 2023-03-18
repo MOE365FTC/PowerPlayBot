@@ -1,27 +1,32 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Lift {
     HardwareMap hardwareMap;
-    Gamepad gamepad2;
+    Gamepad gamepad1, gamepad2;
 
-    public DcMotor liftMotorL;
+    public DcMotorEx liftMotorL;
     public DcMotor liftMotorR;
     Servo fourBarServo;
-    int high = 1440, mid = 860, low = 350, floor = 15, stack5 = 280, stack4 = 250, stack3 = 60, stack2 = 30; //lift extension
+    int high = 1420, mid = 860, low = 350, floor = 15, stack5 = 280, stack4 = 250, stack3 = 60, stack2 = 30; //lift extension
     double upPos = 0.2, straightPos = 0.8;
     double liftPower = 0.7;
     double autonLiftPower = 0.55;
-    public Lift(HardwareMap hardwareMap, Gamepad gamepad2){
+    double liftVel = 400; //degrees/ms //TODO:figure out actual vel and accel
+    double maxAccel = 200;
+    public Lift(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2){
         this.hardwareMap = hardwareMap;
         this.gamepad2 = gamepad2;
+        this.gamepad1 = gamepad1;
 
-        liftMotorL = hardwareMap.get(DcMotor.class, "LLM00");
+        liftMotorL = hardwareMap.get(DcMotorEx.class, "LLM00");
         liftMotorR = hardwareMap.get(DcMotor.class, "RLM01");
         fourBarServo = hardwareMap.get(Servo.class, "FBS00");
 
@@ -187,11 +192,11 @@ public class Lift {
     }
 
     public void manualLift(){
-        if(gamepad2.right_trigger > 0.1 && liftMotorR.getTargetPosition() < 1700 && liftMotorL.getTargetPosition() < 1700){
+        if((gamepad2.right_trigger > 0.1 || gamepad1.right_trigger > 0.1) && liftMotorR.getTargetPosition() < 1700 && liftMotorL.getTargetPosition() < 1700){
             liftMotorL.setTargetPosition((int) (liftMotorL.getCurrentPosition() + 90));
             liftMotorR.setTargetPosition((int) (liftMotorL.getCurrentPosition() + 90));
             liftMotorL.setPower(liftPower);
-        } else if(gamepad2.left_trigger > 0.1 && liftMotorR.getTargetPosition() > 0 && liftMotorL.getTargetPosition() > 0){
+        } else if((gamepad2.left_trigger > 0.1 || gamepad1.right_trigger > 0.1)&& liftMotorR.getTargetPosition() > 0 && liftMotorL.getTargetPosition() > 0){
             liftMotorL.setTargetPosition((int) (liftMotorL.getCurrentPosition() - 90));
             liftMotorR.setTargetPosition((int) (liftMotorL.getCurrentPosition() - 90));
             liftMotorL.setPower(liftPower);
@@ -201,13 +206,45 @@ public class Lift {
     public void autonFourBar(boolean straight) {
         fourBarServo.setPosition(straight ? straightPos:upPos);
     }
+
     public void lowerAuton(double ticks){
         liftMotorL.setTargetPosition((int) liftMotorL.getTargetPosition() - (int) ticks);
         liftMotorR.setTargetPosition((int) liftMotorR.getTargetPosition() - (int) ticks);
         liftMotorL.setPower(autonLiftPower);
         liftMotorR.setPower(autonLiftPower);
     }
+
     public void autonFourBarPos(double pos){
         fourBarServo.setPosition(pos);
+    }
+
+    public void trapTraj(int targetPos, int tolerance){
+        double vel, accel = maxAccel, pos, prevPos;
+        int error = targetPos - liftMotorL.getCurrentPosition();
+        int initialError = error;
+        double curTime = System.nanoTime() * 1000000;
+        double lastTime, startTime = 0;
+
+        while(Math.abs(error) > tolerance){
+            lastTime = curTime;
+            curTime = System.nanoTime() * 1000000; //ms
+            pos = liftMotorL.getCurrentPosition();
+            prevPos = pos;
+            vel = 0;
+            while(vel < liftVel){
+                startTime = System.nanoTime() * 1000000;
+                vel = (pos - prevPos) / (curTime - lastTime);
+                liftMotorL.setVelocity(vel);
+                vel += accel;
+                prevPos = pos;
+                error = targetPos - liftMotorL.getCurrentPosition();
+            }
+            double accelTime = System.nanoTime() * 1000000 - startTime;
+            while(error < initialError - accelTime * maxAccel){
+                vel = (pos - prevPos) / (curTime - lastTime);
+                liftMotorL.setVelocity(vel);
+                vel -= accel;
+            }
+        }
     }
 }

@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.hardware.MOEBot;
 
+@Config
 @TeleOp
 public class Teleop extends OpMode {
     MOEBot robot;
@@ -44,5 +48,9 @@ public class Teleop extends OpMode {
         telemetry.addData("brm", robot.chassis.backRightMotor.getPortNumber());
         telemetry.addData("frm", robot.chassis.frontRightMotor.getPortNumber());
         telemetry.addData("blm", robot.chassis.backLeftMotor.getPortNumber());
+        TelemetryPacket packet = new TelemetryPacket();
+        packet.put("vel", robot.lift.liftMotorL.getVelocity());
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        dashboard.sendTelemetryPacket(packet);
     }
 }
