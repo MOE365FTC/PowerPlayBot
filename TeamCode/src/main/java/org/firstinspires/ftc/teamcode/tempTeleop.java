@@ -11,7 +11,6 @@ public class tempTeleop extends OpMode {
     @Override
     public void init() {
         robot = new MOEBot(hardwareMap, gamepad1, gamepad2);
-        robot.lift.startFourBarPos();
         robot.claw.startClawPos();
     }
 
@@ -24,13 +23,9 @@ public class tempTeleop extends OpMode {
     public void loop() {
         robot.lift.actuate();
         robot.claw.actuate();
-        robot.turret.manualTurret();
         robot.chassis.fieldCentricDrive();
         robot.lift.manualLift();
-        telemetry.addData("turret target", robot.turret.getTurretMotorTarget());
-        telemetry.addData("turret pos", robot.turret.getTurretMotorTicks());
         telemetry.addData("heading imu" ,robot.imu.getHeadingFirstAngle());
-        telemetry.addData("left lift", robot.lift.getLiftTicksL());
-//        telemetry.addData("right lift", robot.lift.getLiftTicksR());
+        telemetry.addData("lift", robot.lift.getLiftTicks());
     }
 }

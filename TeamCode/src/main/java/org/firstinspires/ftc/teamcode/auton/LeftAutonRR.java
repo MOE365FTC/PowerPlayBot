@@ -35,7 +35,6 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
                 .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
                 .addTemporalMarker(() -> {robot.lift.lowerAuton(-200);})
                 .waitSeconds(1.5)
-                .addTemporalMarker(() -> {robot.lift.autonFourBarPos(0.25);})
                 .addTemporalMarker(()-> {robot.lift.lowerAuton(250);})
                 .waitSeconds(0.5)
                 .addTemporalMarker(() -> {
@@ -43,7 +42,6 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
                     robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
                 })
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.turret.turnToDegree(90, telemetry);})
                 .waitSeconds(0.3)
                 .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);})
                 .waitSeconds(1)
@@ -54,11 +52,9 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
                 .waitSeconds(0.5)
                 .addTemporalMarker(() -> {robot.lift.lowerAuton(-300);})
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.turret.turnToDegree(-25, telemetry);})
                 .lineToConstantHeading(new Vector2d(x1,y))
                 .addTemporalMarker(()->{robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.turret.turnToDegree(-35, telemetry);})
                 .waitSeconds(0.5)
                 .addTemporalMarker(()-> {robot.lift.lowerAuton(250);})
                 .waitSeconds(0.5)
@@ -67,7 +63,6 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
                     robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
                 })
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.turret.turnToDegree(90, telemetry);})
                 .waitSeconds(0.3)
                 .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);})
                 .waitSeconds(1)
@@ -78,12 +73,10 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
                 .waitSeconds(0.5)
                 .addTemporalMarker(() -> {robot.lift.lowerAuton(-300);})
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.turret.turnToDegree(-45, telemetry);})
                 .lineToConstantHeading(new Vector2d(x1,y))
                 .waitSeconds(0.5)
                 .addTemporalMarker(()->{robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.turret.turnToDegree(-35, telemetry);})
                 .waitSeconds(0.5)
                 .addTemporalMarker(()-> {robot.lift.lowerAuton(250);})
                 .waitSeconds(0.5)
@@ -92,7 +85,6 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
                     robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
                 })
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.turret.turnToDegree(0);})
                 .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);})
 //                .addDisplacementMarker(() -> {
 //                    robot.claw.grab();
@@ -102,7 +94,6 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
 //                    telemetry.update();
 //                })
 //                .lineToConstantHeading(new Vector2d(x1,y))
-                .addTemporalMarker(() -> {robot.lift.autonFourBar(false);})
                 .build();
         TrajectorySequence case1 = drive.trajectorySequenceBuilder(traj.end())
                 .lineToConstantHeading(new Vector2d(x2+6,y+4))
@@ -129,9 +120,7 @@ public class LeftAutonRR extends LinearOpMode { //test for auton using rr and ma
 //        sleep(1000);
 //        robot.claw.grab();
 //        sleep(1000);
-        robot.lift.autonFourBar(false);
 //        sleep(1000);
-        robot.turret.turnToDegree(-43);
         sleep(1500);
         robot.claw.grab();
         while (!isStarted() && !isStopRequested()){ //init loop

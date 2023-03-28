@@ -35,7 +35,6 @@ public class Left1Cycle extends LinearOpMode { //test for auton using rr and mar
                 .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
                 .addTemporalMarker(() -> {robot.lift.lowerAuton(-200);})
                 .waitSeconds(1.5)
-                .addTemporalMarker(() -> {robot.lift.autonFourBarPos(0.4);})
                 .addTemporalMarker(()-> {robot.lift.lowerAuton(250);})
                 .waitSeconds(0.5)
                 .addTemporalMarker(() -> {
@@ -43,7 +42,6 @@ public class Left1Cycle extends LinearOpMode { //test for auton using rr and mar
                     robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
                 })
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.turret.turnToDegree(0);})
                 .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);})
 //                .addDisplacementMarker(() -> {
 //                    robot.claw.grab();
@@ -53,7 +51,6 @@ public class Left1Cycle extends LinearOpMode { //test for auton using rr and mar
 //                    telemetry.update();
 //                })
 //                .lineToConstantHeading(new Vector2d(x1,y))
-                .addTemporalMarker(() -> {robot.lift.autonFourBar(false);})
                 .build();
         TrajectorySequence case1 = drive.trajectorySequenceBuilder(traj.end())
                 .lineToConstantHeading(new Vector2d(x2+6,y+4))
@@ -80,9 +77,7 @@ public class Left1Cycle extends LinearOpMode { //test for auton using rr and mar
 //        sleep(1000);
 //        robot.claw.grab();
 //        sleep(1000);
-        robot.lift.autonFourBar(false);
 //        sleep(1000);
-        robot.turret.turnToDegree(-43);
         sleep(1500);
         robot.claw.grab();
         while (!isStarted() && !isStopRequested()){ //init loop

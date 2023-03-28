@@ -6,60 +6,46 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Claw {
-    Servo leftClawServo, rightClawServo;
+    Servo clawServo;
     Gamepad gamepad1;
     Gamepad gamepad2;
     HardwareMap hardwareMap;
 
-    double openL = 0.9, closedL = 0.55, openR = 0.2, closedR = 0.45; //close L: 0.5, close R: 0.55
+    double open = 0.1, closed = 0.8, center = 0.5;
     //teleop
     public Claw(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2){
         this.hardwareMap = hardwareMap;
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
 
-        rightClawServo = hardwareMap.get(Servo.class, "RCS01");
-        leftClawServo = hardwareMap.get(Servo.class, "LCS02");
+        clawServo = hardwareMap.get(Servo.class, "RCS01");
     }
 
     public void actuate(){
         if(gamepad1.left_bumper || gamepad2.left_bumper){
-            leftClawServo.setPosition(closedL);
-            rightClawServo.setPosition(closedR);
+            clawServo.setPosition(closed);
         } else if (gamepad1.right_bumper || gamepad2.right_bumper){
-            leftClawServo.setPosition(openL);
-            rightClawServo.setPosition(openR);
+            clawServo.setPosition(open);
         }
     }
 
     public void grab(){
-        leftClawServo.setPosition(closedL);
-        rightClawServo.setPosition(closedR);
+        clawServo.setPosition(closed);
     }
 
     public void release(){
-        leftClawServo.setPosition(openL);
-        rightClawServo.setPosition(openR);
+        clawServo.setPosition(open);
     }
 
-    public double getClawTicksL() {
-        return leftClawServo.getPosition();
+    public double getClawTicks() {
+        return clawServo.getPosition();
     }
 
-    public double getClawTicksR() {
-        return rightClawServo.getPosition();
-    }
-
-    public void nudgeClawL(double stickY) {
-        leftClawServo.setPosition(getClawTicksL() + 0.1 * -Math.signum(stickY));
-    }
-
-    public void nudgeClawR(double stickY) {
-        rightClawServo.setPosition(getClawTicksL() + 0.1 * -Math.signum(stickY));
+    public void nudgeClaw (double stickY) {
+        clawServo.setPosition(getClawTicks() + 0.1 * -Math.signum(stickY));
     }
 
     public void startClawPos(){
-        rightClawServo.setPosition(openR);
-        leftClawServo.setPosition(openL);
+        clawServo.setPosition(open);
     }
 }

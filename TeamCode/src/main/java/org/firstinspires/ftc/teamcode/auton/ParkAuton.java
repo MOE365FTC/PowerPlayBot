@@ -50,9 +50,7 @@ public class ParkAuton extends LinearOpMode { //test for auton using rr and mark
 //        sleep(1000);
 //        robot.claw.grab();
 //        sleep(1000);
-        robot.lift.autonFourBar(false);
 //        sleep(1000);
-        robot.turret.turnToDegree(41);
         sleep(1500);
         robot.claw.grab();
         while (!isStarted() && !isStopRequested()){ //init loop

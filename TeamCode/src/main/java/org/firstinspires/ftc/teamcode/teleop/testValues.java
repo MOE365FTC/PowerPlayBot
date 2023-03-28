@@ -10,26 +10,24 @@ public class testValues extends OpMode {
     @Override
     public void init() {
         robot = new MOEBot(hardwareMap, gamepad1, gamepad2);
+        robot.claw.startClawPos();
     }
 
     @Override
     public void loop() {
-        if(gamepad1.a) {
-//            robot.lift.nudgeFourBar();
-        } else if (gamepad1.b) {
-            robot.claw.nudgeClawR(gamepad1.left_stick_y);
-        } else if (gamepad1.x){
-            robot.claw.nudgeClawL(gamepad1.left_stick_y);
+        robot.lift.manualLift();
+        if(gamepad1.b) {
+            robot.claw.nudgeClaw(gamepad1.left_stick_y);
+        } else if(gamepad1.a) {
+            robot.lift.forkActuate(true); //up
+        } else if(gamepad1.x) {
+            robot.lift.forkActuate(false); //down
         }
         telemetryOut();
     }
 
     public void telemetryOut() {
-        telemetry.addData("TurretTicks: ", robot.turret.getTurretMotorTicks());
-        telemetry.addData("LiftTicks: ", robot.lift.getLiftTicksL());
-//        telemetry.addData("LiftTicks: ", robot.lift.getLiftTicksR());
-//        telemetry.addData("FourBarTicks", robot.lift.getFourBarTicks());
-        telemetry.addData("ClawTicksL", robot.claw.getClawTicksL());
-        telemetry.addData("ClawTicksR", robot.claw.getClawTicksR());
+        telemetry.addData("LiftTicks: ", robot.lift.getLiftTicks());
+        telemetry.addData("ClawTicks: ", robot.claw.getClawTicks());
     }
 }
