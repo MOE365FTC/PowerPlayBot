@@ -18,10 +18,6 @@ public class testValues extends OpMode {
         robot.lift.manualLift();
         if(gamepad1.b) {
             robot.claw.nudgeClaw(gamepad1.left_stick_y);
-        } else if(gamepad1.a) {
-            robot.lift.forkActuate(true); //up
-        } else if(gamepad1.x) {
-            robot.lift.forkActuate(false); //down
         }
         telemetryOut();
     }

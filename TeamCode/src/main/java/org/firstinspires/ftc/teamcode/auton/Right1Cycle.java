@@ -82,12 +82,12 @@ public class Right1Cycle extends LinearOpMode { //test for auton using rr and ma
         sleep(1500);
         robot.claw.grab();
         while (!isStarted() && !isStopRequested()){ //init loop
-            if(signalPos != -1) telemetry.addLine("Ready to start!");
-            robot.vision.visionLoop();
-            telemetry.addData("Detection: ", robot.vision.getSignalPos());
-            sleep(20);
-            signalPos = robot.vision.getSignalPos();
-            telemetry.update();
+//            if(signalPos != -1) telemetry.addLine("Ready to start!");
+//            robot.vision.visionLoop();
+//            telemetry.addData("Detection: ", robot.vision.getSignalPos());
+//            sleep(20);
+//            signalPos = robot.vision.getSignalPos();
+//            telemetry.update();
         }
 
         waitForStart();

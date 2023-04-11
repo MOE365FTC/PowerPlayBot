@@ -1,31 +1,42 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.rr.drive.StandardTrackingWheelLocalizer;
+import org.firstinspires.ftc.teamcode.rr.util.Encoder;
+
 @Config
 public class Chassis {
     public DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
+    public Encoder leftOdo, strafeOdo, rightOdo;
 
     Gamepad gamepad1;
     LinearOpMode opMode;
     IMU imu;
     double headingOffset = 0;
     double driveSpeed = 0.8, scaleFactor;
-
+//    SampleMecanumDrive drive = new SampleMecanumDrive(opMode.hardwareMap);
     //Teleop Constructor
     public Chassis(HardwareMap hardwareMap, IMU imu, Gamepad gamepad1){
      this.gamepad1 = gamepad1;
      this.imu = imu;
 
-     frontLeftMotor = hardwareMap.get(DcMotor.class, "FLM10");
-     backLeftMotor = hardwareMap.get(DcMotor.class, "BLM12");
-     frontRightMotor = hardwareMap.get(DcMotor.class, "FRM11");
-     backRightMotor = hardwareMap.get(DcMotor.class, "BRM13");
+     frontLeftMotor = hardwareMap.get(DcMotor.class, "FLM02");
+     backLeftMotor = hardwareMap.get(DcMotor.class, "BLM00");
+     frontRightMotor = hardwareMap.get(DcMotor.class, "FRM03");
+     backRightMotor = hardwareMap.get(DcMotor.class, "BRM01");
+
+//     leftOdo = hardwareMap.get(Encoder.class, "OLE11");
+//     strafeOdo = hardwareMap.get(Encoder.class, "OCE12");
+//     rightOdo = hardwareMap.get(Encoder.class, "ORE13");
 
 //     backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 //     frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -35,6 +46,16 @@ public class Chassis {
      backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
      frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
      backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+//     frontLeftMotor.setTargetPosition(0);
+//     backLeftMotor.setTargetPosition(0);
+//     frontRightMotor.setTargetPosition(0);
+//     backRightMotor.setTargetPosition(0);
+
+//     frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//     backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//     frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//     backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void fieldCentricDrive(){
@@ -42,7 +63,7 @@ public class Chassis {
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
 
-        double botHeading = Math.toRadians(-imu.getHeadingFirstAngle()) - headingOffset;
+        double botHeading = Math.toRadians(-imu.getHeadingFirstAngle());
 
         double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
         double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
@@ -59,9 +80,8 @@ public class Chassis {
         backLeftMotor.setPower(backLeftPower * scaleFactor);
         frontRightMotor.setPower(frontRightPower * scaleFactor);
         backRightMotor.setPower(backRightPower * scaleFactor);
+    }
 
-        if(gamepad1.right_stick_button){
-            headingOffset = -imu.getHeadingFirstAngle();
-        }
+    public void drive(){
     }
 }

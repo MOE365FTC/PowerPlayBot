@@ -11,14 +11,14 @@ public class Claw {
     Gamepad gamepad2;
     HardwareMap hardwareMap;
 
-    double open = 0.1, closed = 0.8, center = 0.5;
+    public double open = 0.2, closed = 0.83, center = 0.5;
     //teleop
     public Claw(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2){
         this.hardwareMap = hardwareMap;
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
 
-        clawServo = hardwareMap.get(Servo.class, "RCS01");
+        clawServo = hardwareMap.get(Servo.class, "CGS10");
     }
 
     public void actuate(){
@@ -47,5 +47,9 @@ public class Claw {
 
     public void startClawPos(){
         clawServo.setPosition(open);
+    }
+
+    public void setPos(double pos){
+        clawServo.setPosition(pos);
     }
 }

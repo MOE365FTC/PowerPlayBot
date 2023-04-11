@@ -15,9 +15,10 @@ import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 public class RightAutonRR extends LinearOpMode { //test for auton using rr and markers instead of state-machine
 
     int strafeDistance = 20;
-    double y = 8;
-    int x1 = -36;
-    int x2 = -54;
+    double y = 11;
+    int x1 = -36, x1b = -32, yb = 5;
+    int x2 = -48;
+    int x3 = -59;
     int signalPos = -1; //default
 
     @Override
@@ -29,63 +30,43 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence traj = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(x1-3,y-2))
                 .lineToConstantHeading(new Vector2d(x1, y))
-//                .addTemporalMarker(() -> {
-//                    robot.turret.autonCorrectedTurret(-24, -2, drive.getPoseEstimate().getX(), drive.getPoseEstimate().getY());
-//                })
+                .turn(Math.toRadians(45))
                 .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
-                .addTemporalMarker(() -> {robot.lift.lowerAuton(-200);})
-                .waitSeconds(1.5)
-                .addTemporalMarker(()-> {robot.lift.lowerAuton(250);})
+                .waitSeconds(1.0)
+                .lineToConstantHeading(new Vector2d(x1b, yb))
+                .addTemporalMarker(() -> {robot.claw.release();})
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {
-                    robot.claw.release();
-                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                })
-                .waitSeconds(0.5)
-                .waitSeconds(0.3)
-                .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);})
-                .waitSeconds(1)
+                .addTemporalMarker(() -> {robot.claw.grab();})
+                .waitSeconds(1.0)
                 .addTemporalMarker(()-> {robot.lift.autonActuate(Lift.autonLiftPos.GRAB5);})
-                .waitSeconds(0.5)
-                .lineToConstantHeading(new Vector2d(x2,y))
+                .lineToSplineHeading(new Pose2d(x2,y, Math.toRadians(180)))
+                .addTemporalMarker(() -> {robot.claw.release();})
+                .lineToConstantHeading(new Vector2d(x3, y))
                 .addTemporalMarker(() -> {robot.claw.grab();})
-                .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.lift.lowerAuton(-300);})
-                .waitSeconds(0.5)
-                .lineToConstantHeading(new Vector2d(x1,y))
+                .lineToSplineHeading(new Pose2d(x1,y, Math.toRadians(-45)))
                 .addTemporalMarker(()->{robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
-                .waitSeconds(1)
-                .addTemporalMarker(()-> {robot.lift.lowerAuton(250);})
+                .waitSeconds(1.0)
+                .lineToConstantHeading(new Vector2d(x1b, yb))
+                .addTemporalMarker(() -> {robot.claw.release();})
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {
-                    robot.claw.release();
-                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                })
-                .waitSeconds(0.5)
-                .waitSeconds(0.3)
-                .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);})
-                .waitSeconds(1)
-                .addTemporalMarker(()-> {robot.lift.autonActuate(Lift.autonLiftPos.GRAB4);})
-                .waitSeconds(0.5)
-                .lineToConstantHeading(new Vector2d(x2,y))
                 .addTemporalMarker(() -> {robot.claw.grab();})
-                .waitSeconds(0.5)
-                .addTemporalMarker(() -> {robot.lift.lowerAuton(-300);})
-                .waitSeconds(0.5)
-                .lineToConstantHeading(new Vector2d(x1,y))
-                .waitSeconds(0.5)
+                .waitSeconds(1.0)
+                .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.GRAB5);})
+                .lineToSplineHeading(new Pose2d(x2,y, Math.toRadians(180)))
+                .addTemporalMarker(() -> {robot.claw.release();})
+                .lineToConstantHeading(new Vector2d(x3, y))
+                .addTemporalMarker(() -> {robot.claw.grab();})
+                .lineToSplineHeading(new Pose2d(x1,y, Math.toRadians(-45)))
                 .addTemporalMarker(()->{robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
-                .waitSeconds(1)
-                .addTemporalMarker(()-> {robot.lift.lowerAuton(250);})
+                .waitSeconds(1.0)
+                .lineToConstantHeading(new Vector2d(x1b, yb))
+                .addTemporalMarker(() -> {robot.claw.release();})
                 .waitSeconds(0.5)
-                .addTemporalMarker(() -> {
-                    robot.claw.release();
-                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
-                })
-                .waitSeconds(0.5)
+                .addTemporalMarker(() -> {robot.claw.grab();})
+                .waitSeconds(1.0)
                 .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);})
+//                .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);})
 //                .addDisplacementMarker(() -> {
 //                    robot.claw.grab();
 //                    robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
@@ -116,7 +97,7 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
 //        sleep(1000);
 //        robot.claw.release();
 //        sleep(1000);
-        robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);
+//        robot.lift.autonActuate(Lift.autonLiftPos.FLOOR);
 //        sleep(1000);
 //        robot.claw.grab();
 //        sleep(1000);
@@ -124,16 +105,17 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
         sleep(1500);
         robot.claw.grab();
         while (!isStarted() && !isStopRequested()){ //init loop
-            if(signalPos != -1) telemetry.addLine("Ready to start!");
-            robot.vision.visionLoop();
-            telemetry.addData("Detection: ", robot.vision.getSignalPos());
-            sleep(20);
-            signalPos = robot.vision.getSignalPos();
-            telemetry.update();
+//            if(signalPos != -1) telemetry.addLine("Ready to start!");
+//            robot.vision.visionLoop();
+//            telemetry.addData("Detection: ", robot.vision.getSignalPos());
+//            sleep(20);
+//            signalPos = robot.vision.getSignalPos();
+//            telemetry.update();
         }
 
         waitForStart();
 //        robot.lift.autonActuate(Lift.autonLiftPos.HIGH);
+        robot.claw.grab();
         drive.followTrajectorySequence(traj);
         telemetry.addLine(String.valueOf(signalPos));
         telemetry.update();

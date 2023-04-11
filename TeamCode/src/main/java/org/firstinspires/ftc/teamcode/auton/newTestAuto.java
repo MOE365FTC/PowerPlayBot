@@ -29,19 +29,7 @@ public class newTestAuto extends LinearOpMode { //test for auton using rr and ma
 
         TrajectorySequence traj = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(x1, y))
-                .turn(Math.toRadians(30))
-                .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(x2, y, Math.toRadians(180)))
-                .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(x1, y, Math.toRadians(-60)))
-                .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(x2, y, Math.toRadians(180)))
-                .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(x1, y, Math.toRadians(-60)))
-                .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(x2, y, Math.toRadians(180)))
-                .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(x1, y, Math.toRadians(-60)))
+                .lineToConstantHeading(new Vector2d(x1-14, y))
                 .build();
         waitForStart();
         drive.followTrajectorySequence(traj);
@@ -52,9 +40,6 @@ public class newTestAuto extends LinearOpMode { //test for auton using rr and ma
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
-            telemetry.addData("l", drive.rightRear.getCurrentPosition());
-            telemetry.addData("r", drive.leftFront.getCurrentPosition());
-            telemetry.addData("s", drive.leftRear.getCurrentPosition());
             telemetry.update();
         }
     }

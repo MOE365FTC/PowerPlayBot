@@ -53,10 +53,10 @@ import java.util.List;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(23, 9, 0.5); //0.6, 0, 0.2
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(16, 0.1, 0.1125); // 0.5, 0.1, 0.1125
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0.05, 0, 0); // 23, 9 ,0.5
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(20, 10, 0); // 16, .1, .1125
 
-    public static double LATERAL_MULTIPLIER = 1.538; //.8175
+    public static double LATERAL_MULTIPLIER = 2.22; //.8175 // 1.538
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -117,10 +117,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         // For example, if +Y in this diagram faces downwards, you would use AxisDirection.NEG_Y.
         // BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_Y);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "FLM10");
-        leftRear = hardwareMap.get(DcMotorEx.class, "BLM12");
-        rightFront = hardwareMap.get(DcMotorEx.class, "FRM11");
-        rightRear = hardwareMap.get(DcMotorEx.class, "BRM13");
+        leftFront = hardwareMap.get(DcMotorEx.class, "FLM02");
+        leftRear = hardwareMap.get(DcMotorEx.class, "BLM00");
+        rightFront = hardwareMap.get(DcMotorEx.class, "FRM03");
+        rightRear = hardwareMap.get(DcMotorEx.class, "BRM01");
 
 //        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 //        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -293,10 +293,10 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
+        rightFront.setPower(v3);
+        rightRear.setPower(v2);
         leftFront.setPower(v);
         leftRear.setPower(v1);
-        rightRear.setPower(v2);
-        rightFront.setPower(v3);
     }
 
     @Override
@@ -311,7 +311,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         // expected). This bug does NOT affect orientation.
         //
         // See https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/251 for details.
-        return (double) -imu.getAngularVelocity().xRotationRate;
+        return (double) -imu.getAngularVelocity().zRotationRate;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
