@@ -11,14 +11,17 @@ import org.firstinspires.ftc.teamcode.hardware.MOEBot;
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 @Autonomous
 public class RightAutonRR extends LinearOpMode { //test for auton using rr and markers instead of state-machine
 
     int strafeDistance = 20;
-    double y = 11;
-    int x1 = -36, x1b = -32, yb = 5;
-    int x2 = -48;
-    int x3 = -59;
+    double y = 4;
+    int x1 = -33, x1b = -25, yb = -15;
+    int x2 = -53;
+    int x3 = -55;
     int signalPos = -1; //default
 
     @Override
@@ -26,23 +29,32 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         MOEBot robot = new MOEBot(hardwareMap, gamepad1, gamepad2); //angle - robot degree + (angle/2)
 
-        Pose2d startPose = new Pose2d(-36, 60, Math.toRadians(-90));
+        Pose2d startPose = new Pose2d(-36, 66, Math.toRadians(-90));
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence traj = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(x1, y))
-                .turn(Math.toRadians(45))
+                .turn(Math.toRadians(42))
+//                .lineToSplineHeading(new Pose2d(x1, y, Math.toRadians(-45)))
                 .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
                 .waitSeconds(1.0)
                 .lineToConstantHeading(new Vector2d(x1b, yb))
                 .addTemporalMarker(() -> {robot.claw.release();})
                 .waitSeconds(0.5)
                 .addTemporalMarker(() -> {robot.claw.grab();})
-                .waitSeconds(1.0)
-                .addTemporalMarker(()-> {robot.lift.autonActuate(Lift.autonLiftPos.GRAB5);})
-                .lineToSplineHeading(new Pose2d(x2,y, Math.toRadians(180)))
+                .addTemporalMarker(()-> {
+                    Timer timer = new Timer();
+                    TimerTask lowerLift = new TimerTask() {
+                        @Override
+                        public void run() {
+                            robot.lift.autonActuate(Lift.autonLiftPos.GRAB5);
+                        }
+                    };
+                    timer.schedule(lowerLift, 700);
+                })
+                .lineToSplineHeading(new Pose2d(x2,y-8, Math.toRadians(180)))
                 .addTemporalMarker(() -> {robot.claw.release();})
-                .lineToConstantHeading(new Vector2d(x3, y))
+                .lineToConstantHeading(new Vector2d(x3, y-8))
                 .addTemporalMarker(() -> {robot.claw.grab();})
                 .lineToSplineHeading(new Pose2d(x1,y, Math.toRadians(-45)))
                 .addTemporalMarker(()->{robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
@@ -52,13 +64,22 @@ public class RightAutonRR extends LinearOpMode { //test for auton using rr and m
                 .waitSeconds(0.5)
                 .addTemporalMarker(() -> {robot.claw.grab();})
                 .waitSeconds(1.0)
-                .addTemporalMarker(() -> {robot.lift.autonActuate(Lift.autonLiftPos.GRAB5);})
-                .lineToSplineHeading(new Pose2d(x2,y, Math.toRadians(180)))
+                .addTemporalMarker(()-> {
+                    Timer timer = new Timer();
+                    TimerTask lowerLift = new TimerTask() {
+                        @Override
+                        public void run() {
+                            robot.lift.autonActuate(Lift.autonLiftPos.GRAB4);
+                        }
+                    };
+                    timer.schedule(lowerLift, 700);
+                })
+                .lineToSplineHeading(new Pose2d(x2,y-2, Math.toRadians(180)))
                 .addTemporalMarker(() -> {robot.claw.release();})
-                .lineToConstantHeading(new Vector2d(x3, y))
+                .lineToConstantHeading(new Vector2d(x3, y-2))
                 .addTemporalMarker(() -> {robot.claw.grab();})
-                .lineToSplineHeading(new Pose2d(x1,y, Math.toRadians(-45)))
                 .addTemporalMarker(()->{robot.lift.autonActuate(Lift.autonLiftPos.HIGH);})
+                .lineToSplineHeading(new Pose2d(x1,y, Math.toRadians(-45)))
                 .waitSeconds(1.0)
                 .lineToConstantHeading(new Vector2d(x1b, yb))
                 .addTemporalMarker(() -> {robot.claw.release();})

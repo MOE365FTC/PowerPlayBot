@@ -29,7 +29,6 @@ public class LinearTeleOp extends LinearOpMode {
             robot.lift.manualLift();
             robot.claw.actuate();
 //        robot.chassis.fieldCentricDrive();
-            robot.chassis.drive();
             robot.lift.forkActuate();
             if (gamepad1.a) {
                 robot.claw.grab();

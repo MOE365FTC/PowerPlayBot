@@ -22,7 +22,7 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         robot.lift.actuate();
-//        robot.lift.lowerLift();
+        robot.lift.lowerLift();
         robot.claw.actuate();
         robot.chassis.fieldCentricDrive();
 //        robot.chassis.drive();
@@ -30,6 +30,8 @@ public class Teleop extends OpMode {
         if(gamepad1.a){
             robot.claw.grab();
         }
+        robot.chassis.odoTelemetry(telemetry);
         telemetry.addData("lift", robot.lift.getLiftTicks());
+        telemetry.update();
     }
 }

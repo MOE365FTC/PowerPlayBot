@@ -12,7 +12,7 @@ public class Lift {
 
     public DcMotor liftMotor;
     public Servo forkServo;
-    int high = 1975, mid = 1410, low = 853, floor = 0, stack5 = 500, stack4 = 400, stack3 = 300, stack2 = 200; //lift extension
+    int high = 1975, mid = 1410, low = 853, floor = 0, stack5 = 450, stack4 = 400, stack3 = 300, stack2 = 200; //lift extension
     int maxLiftPos = 2200; //FIND THIS, TEMP VALUE FOR RIGHT NOW
     int manualIncrement = 90;
     double liftPower = 1.0;
@@ -111,18 +111,8 @@ public class Lift {
         }
     }
 
-    public void testForkActuate() {
-        if(gamepad1.dpad_up){
-            forkServo.setPosition(forkUp);
-        } else if(gamepad1.dpad_down){
-            forkServo.setPosition(forkDown);
-        }
-    }
-
     public void forkActuate(){
-        if(gamepad1.right_trigger > 0.6){
-            forkServo.setPosition(0.6);
-        } else {
+        if(!lowered) {
             if (liftMotor.getCurrentPosition() < 1300) {
                 forkServo.setPosition(forkUp);
             } else if (liftMotor.getCurrentPosition() > 1300 & liftMotor.getTargetPosition() > 1300) {
@@ -163,7 +153,7 @@ public class Lift {
         if(!lowered){
             pos = liftMotor.getTargetPosition();
         }
-        if(gamepad1.left_trigger > 0.3 && liftMotor.getCurrentPosition() > 1650){
+        if(gamepad1.left_trigger > 0.3 && liftMotor.getCurrentPosition() > 500){
             liftMotor.setTargetPosition(pos-300);
             lowered = true;
         } else{

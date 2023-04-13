@@ -5,10 +5,12 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.rr.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.rr.util.Encoder;
@@ -16,13 +18,13 @@ import org.firstinspires.ftc.teamcode.rr.util.Encoder;
 @Config
 public class Chassis {
     public DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
-    public Encoder leftOdo, strafeOdo, rightOdo;
+    public DcMotorEx leftOdo, strafeOdo, rightOdo;
 
     Gamepad gamepad1;
     LinearOpMode opMode;
     IMU imu;
     double headingOffset = 0;
-    double driveSpeed = 0.8, scaleFactor;
+    double driveSpeed = 1.0, scaleFactor;
 //    SampleMecanumDrive drive = new SampleMecanumDrive(opMode.hardwareMap);
     //Teleop Constructor
     public Chassis(HardwareMap hardwareMap, IMU imu, Gamepad gamepad1){
@@ -34,9 +36,9 @@ public class Chassis {
      frontRightMotor = hardwareMap.get(DcMotor.class, "FRM03");
      backRightMotor = hardwareMap.get(DcMotor.class, "BRM01");
 
-//     leftOdo = hardwareMap.get(Encoder.class, "OLE11");
-//     strafeOdo = hardwareMap.get(Encoder.class, "OCE12");
-//     rightOdo = hardwareMap.get(Encoder.class, "ORE13");
+     leftOdo = hardwareMap.get(DcMotorEx.class, "OLE11");
+     strafeOdo = hardwareMap.get(DcMotorEx.class, "OCE12");
+     rightOdo = hardwareMap.get(DcMotorEx.class, "ORE13");
 
 //     backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 //     frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -82,6 +84,10 @@ public class Chassis {
         backRightMotor.setPower(backRightPower * scaleFactor);
     }
 
-    public void drive(){
+    public void odoTelemetry(Telemetry telemetry){
+        telemetry.addData("leftOdo", leftOdo.getCurrentPosition());
+        telemetry.addData("rightOdo", rightOdo.getCurrentPosition());
+        telemetry.addData("strafeOdo", strafeOdo.getCurrentPosition());
+
     }
 }
